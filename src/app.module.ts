@@ -12,6 +12,8 @@ import { ConfigModule } from '@nestjs/config'
 import { RoleModule } from './app/role/role.module'
 import { PermissionModule } from './app/permission/permission.module'
 import { RolePermissionModule } from './app/role_permission/role_permission.module'
+import { ClinicModule } from './app/clinic/clinic.module'
+import { EmployeeClinicModule } from './app/employee_clinic/employee_clinic.module'
 
 @Module({
   imports: [
@@ -27,6 +29,8 @@ import { RolePermissionModule } from './app/role_permission/role_permission.modu
     RoleModule,
     PermissionModule,
     RolePermissionModule,
+    ClinicModule,
+    EmployeeClinicModule,
   ],
   controllers: [AppController],
   providers: [AppService],
