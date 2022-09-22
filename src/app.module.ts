@@ -21,7 +21,7 @@ import { BudgetModule } from './modules/budget/budget.module'
 import { BudgetItemModule } from './modules/budget-item/budget-item.module'
 import { MaterialCategoryModule } from './modules/material-category/material-category.module'
 import { MaterialModule } from './modules/material/material.module'
-import { ExamsModule } from './exams/exams.module';
+import { ExamsModule } from './modules/exams/exams.module'
 
 @Module({
   imports: [
