@@ -5,7 +5,7 @@ import { EmployeeClinicDomain } from './employee-clinic.domain'
 
 @Entity('employee_clinic')
 export class EmployeeClinic extends EmployeeClinicDomain {
-  @ManyToOne(() => Employee, (relation) => relation.employeeClinics)
+  @ManyToOne(() => Employee, (relation) => relation.employeeClinics, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   @JoinColumn({
     foreignKeyConstraintName: 'FK_EMPLOYEE_CLINIC_EMPLOYEE_ID',
     name: 'employeeId',
@@ -13,7 +13,7 @@ export class EmployeeClinic extends EmployeeClinicDomain {
   })
   employee: Employee
 
-  @ManyToOne(() => Clinic, (relation) => relation.employeeClinics)
+  @ManyToOne(() => Clinic, (relation) => relation.employeeClinics, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   @JoinColumn({
     foreignKeyConstraintName: 'FK_EMPLOYEE_CLINIC_CLINIC_ID',
     name: 'clinicId',

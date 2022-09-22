@@ -4,7 +4,7 @@ import { ProcedureHistoryDomain } from './procedure-history.domain'
 
 @Entity('procedure_history')
 export class ProcedureHistory extends ProcedureHistoryDomain {
-  @ManyToOne(() => Procedure, (relation) => relation.procedureHistories)
+  @ManyToOne(() => Procedure, (relation) => relation.procedureHistories, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   @JoinColumn({
     foreignKeyConstraintName: 'FK_PROCEDURE_HISTORY_PROCEDURE_ID',
     name: 'procedureId',

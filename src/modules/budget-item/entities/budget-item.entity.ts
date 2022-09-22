@@ -5,11 +5,11 @@ import { BudgetItemDomain } from './budget-item.domain'
 
 @Entity('budget_item')
 export class BudgetItem extends BudgetItemDomain {
-  @ManyToOne(() => Budget, (relation) => relation.budgetItems)
+  @ManyToOne(() => Budget, (relation) => relation.budgetItems, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   @JoinColumn({ foreignKeyConstraintName: 'FK_BUDGET_ITEM_BUDGET_ID', name: 'budgetId', referencedColumnName: 'id' })
   budget: Budget
 
-  @ManyToOne(() => Procedure, (relation) => relation.budgetItems)
+  @ManyToOne(() => Procedure, (relation) => relation.budgetItems, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   @JoinColumn({
     foreignKeyConstraintName: 'FK_BUDGET_ITEM_PROCEDURE_ID',
     name: 'procedureId',

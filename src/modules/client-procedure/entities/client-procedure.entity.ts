@@ -7,7 +7,7 @@ import { ClientProcedureDomain } from './client-procedure.domain'
 
 @Entity('client_procedure')
 export class ClientProcedure extends ClientProcedureDomain {
-  @ManyToOne(() => Client, (relation) => relation.clientProcedures)
+  @ManyToOne(() => Client, (relation) => relation.clientProcedures, { onDelete: 'SET NULL', onUpdate: 'CASCADE' })
   @JoinColumn({
     foreignKeyConstraintName: 'FK_CLIENT_PROCEDURE_CLIENT_ID ',
     name: 'clientId',
@@ -15,7 +15,7 @@ export class ClientProcedure extends ClientProcedureDomain {
   })
   client: Client
 
-  @ManyToOne(() => Clinic, (relation) => relation.clientProcedures)
+  @ManyToOne(() => Clinic, (relation) => relation.clientProcedures, { onDelete: 'SET NULL', onUpdate: 'CASCADE' })
   @JoinColumn({
     foreignKeyConstraintName: 'FK_CLIENT_PROCEDURE_CLINIC_ID ',
     name: 'clinicId',
@@ -23,7 +23,7 @@ export class ClientProcedure extends ClientProcedureDomain {
   })
   clinic: Clinic
 
-  @ManyToOne(() => Employee, (relation) => relation.clientProcedures)
+  @ManyToOne(() => Employee, (relation) => relation.clientProcedures, { onDelete: 'SET NULL', onUpdate: 'CASCADE' })
   @JoinColumn({
     foreignKeyConstraintName: 'FK_CLIENT_PROCEDURE_EMPLOYEE_ID ',
     name: 'employeeId',
@@ -31,7 +31,7 @@ export class ClientProcedure extends ClientProcedureDomain {
   })
   employee: Employee
 
-  @ManyToOne(() => Procedure, (relation) => relation.clientProcedures)
+  @ManyToOne(() => Procedure, (relation) => relation.clientProcedures, { onDelete: 'SET NULL', onUpdate: 'CASCADE' })
   @JoinColumn({
     foreignKeyConstraintName: 'FK_CLIENT_PROCEDURE_PROCEDURE_ID ',
     name: 'procedureId',
