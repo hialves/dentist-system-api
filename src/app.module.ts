@@ -21,6 +21,7 @@ import { BudgetModule } from './modules/budget/budget.module'
 import { BudgetItemModule } from './modules/budget-item/budget-item.module'
 import { MaterialCategoryModule } from './modules/material-category/material-category.module'
 import { MaterialModule } from './modules/material/material.module'
+import { ExamsModule } from './exams/exams.module';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { MaterialModule } from './modules/material/material.module'
     BudgetItemModule,
     MaterialCategoryModule,
     MaterialModule,
+    ExamsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
