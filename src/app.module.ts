@@ -19,8 +19,8 @@ import { ProcedureHistoryModule } from './modules/procedure-history/procedure-hi
 import { ClientProcedureModule } from './modules/client-procedure/client-procedure.module'
 import { BudgetModule } from './modules/budget/budget.module'
 import { BudgetItemModule } from './modules/budget-item/budget-item.module'
-import { MaterialCategoryModule } from './material-category/material-category.module';
-import { MaterialModule } from './material/material.module';
+import { MaterialCategoryModule } from './modules/material-category/material-category.module'
+import { MaterialModule } from './modules/material/material.module'
 
 @Module({
   imports: [
