@@ -1,25 +1,10 @@
-import { Column, Entity, OneToMany } from 'typeorm'
-import { BaseEntity } from '../../../common/entity'
+import { Entity, OneToMany } from 'typeorm'
 import { Budget } from '../../budget/entities/budget.entity'
 import { ClientProcedure } from '../../client-procedure/entities/client-procedure.entity'
+import { ClientDomain } from './client.domain'
 
 @Entity('client')
-export class Client extends BaseEntity {
-  @Column({ nullable: false })
-  name: string
-
-  @Column({ nullable: false, unique: true })
-  email: string
-
-  @Column('varchar', { nullable: true, length: 11 })
-  document?: string
-
-  @Column({ nullable: true })
-  photo?: string
-
-  @Column({ nullable: true })
-  phone?: string
-
+export class Client extends ClientDomain {
   @OneToMany(() => ClientProcedure, (relation) => relation.client)
   clientProcedures: ClientProcedure[]
 

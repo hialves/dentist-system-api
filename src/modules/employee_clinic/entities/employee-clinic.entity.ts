@@ -1,19 +1,10 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm'
+import { Entity, JoinColumn, ManyToOne } from 'typeorm'
 import { Clinic } from '../../clinic/entities/clinic.entity'
 import { Employee } from '../../employee/entities/employee.entity'
+import { EmployeeClinicDomain } from './employee-clinic.domain'
 
 @Entity('employee_clinic')
-export class EmployeeClinic {
-  @Column({ nullable: false })
-  employeeId: number
-
-  @Column({ nullable: false })
-  clinicId: number
-
-  // TODO: mudar para default false
-  @Column({ nullable: false, default: true })
-  active: boolean
-
+export class EmployeeClinic extends EmployeeClinicDomain {
   @ManyToOne(() => Employee, (relation) => relation.employeeClinics)
   @JoinColumn({
     foreignKeyConstraintName: 'FK_EMPLOYEE_CLINIC_EMPLOYEE_ID',
