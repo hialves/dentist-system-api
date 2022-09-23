@@ -31,7 +31,10 @@ export class ClientService extends BaseService<Client> {
 
   static createEntity(dto: CreateClientDto) {
     const client = new Client()
-    Object.assign(client, dto)
+    client.document = dto.document
+    client.email = dto.email
+    client.name = dto.name
+    client.phone = dto.phone
 
     return client
   }
