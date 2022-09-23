@@ -1,10 +1,9 @@
-import { Injectable, Inject, forwardRef } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { BaseService } from '../../common/service.repository'
 import { CreateClientDto } from './dto/create-client.dto'
 import { Client } from './entities/client.entity'
-import { AuthService } from '../auth/auth.service'
 
 @Injectable()
 export class ClientService extends BaseService<Client> {
@@ -15,13 +14,26 @@ export class ClientService extends BaseService<Client> {
     super(repo)
   }
 
-  async create(dto: CreateClientDto) {
-    await this.validateIfExists({
-      where: { email: dto.email, document: dto.document },
-      errorMessage: 'Email já cadastrado',
-    })
+  async create(client: Client) {
+    await this.validateIfExists([
+      {
+        where: { email: client.email },
+        errorMessage: 'Email já cadastrado',
+      },
+      {
+        where: { document: client.document },
+        errorMessage: 'CPF já cadastrado',
+      },
+    ])
 
-    return this.repo.save(dto)
+    return this.repo.save(client)
+  }
+
+  static createEntity(dto: CreateClientDto) {
+    const client = new Client()
+    Object.assign(client, dto)
+
+    return client
   }
 
   async findOne(id: number) {

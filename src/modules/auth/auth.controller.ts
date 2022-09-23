@@ -28,7 +28,8 @@ export class AuthController {
   @Public()
   @Post('auth/client/register')
   async clientRegister(@Body() dto: CreateClientDto) {
-    return this.clientService.create(dto)
+    const client = ClientService.createEntity(dto)
+    return this.clientService.create(client)
   }
 
   @Public()
