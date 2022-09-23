@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common'
 import { permissions } from '../../config/permissions'
 import { RequiredPermission } from '../../decorators/permission.decorator'
-import { Public } from '../../decorators/public.decorator'
 import { ClientService } from './client.service'
 import { CreateClientDto } from './dto/create-client.dto'
 import { UpdateClientDto } from './dto/update-client.dto'
