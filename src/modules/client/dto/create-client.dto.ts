@@ -11,8 +11,5 @@ export class CreateClientDto {
   document?: string
 
   @IsOptional()
-  photo?: string
-
-  @IsOptional()
   phone?: string
 }
