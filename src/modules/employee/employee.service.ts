@@ -1,39 +1,43 @@
-import { Injectable, Inject, forwardRef } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { EntityManager, Repository } from 'typeorm'
 import { BaseService } from '../../common/service.repository'
 import { CreateEmployeeDto } from './dto/create-employee.dto'
 import { Employee } from './entities/employee.entity'
-import { AuthService } from '../auth/auth.service'
+import { hashPassword } from '../../utils/hash-password'
 
 @Injectable()
 export class EmployeeService extends BaseService<Employee> {
   constructor(
     @InjectRepository(Employee)
     private readonly repo: Repository<Employee>,
-    @Inject(forwardRef(() => AuthService))
-    private authService: AuthService,
   ) {
     super(repo)
   }
 
-  async create(dto: CreateEmployeeDto, t?: EntityManager) {
+  async create(employee: Employee, t?: EntityManager) {
     await this.validateIfExists({
-      key: 'email',
-      value: dto.email,
+      where: {
+        email: employee.email,
+      },
       errorMessage: 'Email já cadastrado',
     })
-    const hashedPassword = await this.authService.hashPassword(dto.password)
-
-    const employee = new Employee()
-    employee.email = dto.email
-    employee.name = dto.name
-    employee.password = hashedPassword
 
     return t ? t.save(employee) : this.repo.save(employee)
   }
 
-  async findOne(id: number) {
+  static async createEntity(dto: CreateEmployeeDto): Promise<Employee> {
+    const employee = new Employee()
+    employee.name = dto.name
+    employee.email = dto.email
+    employee.document = dto.document
+    employee.password = await hashPassword(dto.password)
+    employee.cro = dto.cro
+
+    return employee
+  }
+
+  findOne(id: number) {
     return this.repo.findOne({ where: { id } })
   }
 

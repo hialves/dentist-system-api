@@ -5,7 +5,7 @@ export class ClinicDomain extends BaseEntity {
   @Column({ nullable: false })
   name: string
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, length: 14 })
   document: string
 
   @Column({ nullable: true })

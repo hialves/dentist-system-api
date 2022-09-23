@@ -8,6 +8,9 @@ export class EmployeeClinicDomain extends BaseEntity {
   @Column({ nullable: false })
   clinicId: number
 
+  @Column({ nullable: true })
+  roleId?: number
+
   // TODO: mudar para default false
   @Column({ nullable: false, default: true })
   active: boolean

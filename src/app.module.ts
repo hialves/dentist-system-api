@@ -22,6 +22,9 @@ import { BudgetItemModule } from './modules/budget-item/budget-item.module'
 import { MaterialCategoryModule } from './modules/material-category/material-category.module'
 import { MaterialModule } from './modules/material/material.module'
 import { ExamsModule } from './modules/exams/exams.module'
+import { APP_GUARD } from '@nestjs/core'
+import { JwtAuthGuard } from './modules/auth/jwt-auth.guard'
+import { PermissionGuard } from './modules/auth/permission.guard'
 
 @Module({
   imports: [
@@ -49,6 +52,16 @@ import { ExamsModule } from './modules/exams/exams.module'
     ExamsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: PermissionGuard,
+    },
+  ],
 })
 export class AppModule {}

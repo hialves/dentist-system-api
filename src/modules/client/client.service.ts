@@ -11,16 +11,13 @@ export class ClientService extends BaseService<Client> {
   constructor(
     @InjectRepository(Client)
     private readonly repo: Repository<Client>,
-    @Inject(forwardRef(() => AuthService))
-    private authService: AuthService,
   ) {
     super(repo)
   }
 
   async create(dto: CreateClientDto) {
     await this.validateIfExists({
-      key: 'email',
-      value: dto.email,
+      where: { email: dto.email, document: dto.document },
       errorMessage: 'Email já cadastrado',
     })
 

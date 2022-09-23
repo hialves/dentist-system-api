@@ -13,6 +13,6 @@ export class ExamDomain extends BaseEntity {
   @Column()
   fileUrl: string
 
-  @Column({ enum: ExamFileTypeEnum, enumName: 'EXAM_FILE_TYPE_ENUM' })
+  @Column({ type: 'enum', enum: ExamFileTypeEnum, enumName: 'EXAM_FILE_TYPE_ENUM' })
   fileType: ExamFileTypeEnum
 }

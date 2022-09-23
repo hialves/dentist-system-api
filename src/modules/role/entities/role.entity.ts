@@ -1,8 +1,9 @@
 import { Entity, OneToMany, OneToOne } from 'typeorm'
 import { Admin } from '../../admin/entities/admin.entity'
 import { Employee } from '../../employee/entities/employee.entity'
+import { EmployeeClinic } from '../../employee_clinic/entities/employee-clinic.entity'
 import { RolePermission } from '../../role_permission/entities/role_permission.entity'
-import { RoleDomain } from './role.domain'
+import { RoleDomain, RoleSlugEnum } from './role.domain'
 
 @Entity('role')
 export class Role extends RoleDomain {
@@ -12,6 +13,12 @@ export class Role extends RoleDomain {
   @OneToOne(() => Admin, (relation) => relation.role)
   admin: Admin
 
-  @OneToOne(() => Employee, (relation) => relation.role)
-  employee: Employee
+  @OneToMany(() => EmployeeClinic, (relation) => relation.role)
+  employeeClinics: EmployeeClinic[]
 }
+
+// const data = [
+//   { name: 'Clinic Owner', slug: RoleSlugEnum.ClinicOwner },
+//   { name: 'Employee Dentist', slug: RoleSlugEnum.EmployeeDentist },
+//   { name: 'Employee Manager', slug: RoleSlugEnum.EmployeeManager },
+// ]

@@ -6,10 +6,6 @@ import { EmployeeDomain } from './employee.domain'
 
 @Entity('employee')
 export class Employee extends EmployeeDomain {
-  @OneToOne(() => Role, (relation) => relation.employee, { onDelete: 'SET NULL', onUpdate: 'CASCADE' })
-  @JoinColumn({ foreignKeyConstraintName: 'FK_EMPLOYEE_ROLE_ID', name: 'roleId', referencedColumnName: 'id' })
-  role: Role
-
   @OneToMany(() => EmployeeClinic, (relation) => relation.employee)
   employeeClinics: EmployeeClinic[]
 

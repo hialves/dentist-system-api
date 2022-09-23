@@ -1,11 +1,12 @@
 import { ExtractJwt, Strategy } from 'passport-jwt'
 import { PassportStrategy } from '@nestjs/passport'
 import { Injectable } from '@nestjs/common'
-import { JwtPayload } from '../../interfaces/jwt.interface'
+import { IAccessToken, JwtPayload } from '../../@types/custom'
+import { RoleService } from '../role/role.service'
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
-  constructor() {
+  constructor(private roleService: RoleService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
@@ -13,7 +14,9 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     })
   }
 
-  async validate(payload: JwtPayload) {
-    return payload
+  async validate(payload: IAccessToken): Promise<JwtPayload> {
+    const permissions = await this.roleService.getRolePermissions(payload.roleId)
+
+    return { ...payload, permissions }
   }
 }

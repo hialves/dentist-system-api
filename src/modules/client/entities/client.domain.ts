@@ -8,7 +8,7 @@ export class ClientDomain extends BaseEntity {
   @Column({ nullable: false, unique: true })
   email: string
 
-  @Column('varchar', { nullable: true, length: 11 })
+  @Column('varchar', { nullable: true, length: 11, unique: true })
   document?: string
 
   @Column({ nullable: true })

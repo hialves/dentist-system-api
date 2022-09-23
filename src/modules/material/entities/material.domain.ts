@@ -8,6 +8,6 @@ export class MaterialDomain extends BaseEntity {
   @Column({ nullable: false })
   quantity: number
 
-  @Column({ nullable: false })
-  materialCategoryId: number
+  @Column({ nullable: true })
+  materialCategoryId?: number
 }

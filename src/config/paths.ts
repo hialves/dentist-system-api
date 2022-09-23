@@ -3,7 +3,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 
 export const paths = {
-  restaurantLogos: path.resolve('public', 'images', 'restaurant-logos'),
+  'employee-images': path.resolve('public', 'images', 'employee-images'),
 }
 
 export function generateFolders() {

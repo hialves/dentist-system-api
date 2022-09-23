@@ -1,30 +1,27 @@
-import { Injectable, forwardRef, Inject } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { BaseService } from '../../common/service.repository'
 import { CreateAdminDto } from './dto/create-admin.dto'
 import { Admin } from './entities/admin.entity'
-import { AuthService } from '../auth/auth.service'
+import { hashPassword } from '../../utils/hash-password'
 
 @Injectable()
 export class AdminService extends BaseService<Admin> {
   constructor(
     @InjectRepository(Admin)
     private readonly repo: Repository<Admin>,
-    @Inject(forwardRef(() => AuthService))
-    private authService: AuthService,
   ) {
     super(repo)
   }
 
   async create(dto: CreateAdminDto) {
     await this.validateIfExists({
-      key: 'email',
-      value: dto.email,
+      where: { email: dto.email },
       errorMessage: 'Email já cadastrado',
     })
 
-    const hashedPassword = await this.authService.hashPassword(dto.password)
+    const hashedPassword = await hashPassword(dto.password)
 
     return this.repo.save({
       ...dto,

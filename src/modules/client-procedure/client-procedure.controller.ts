@@ -1,34 +1,41 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ClientProcedureService } from './client-procedure.service';
-import { CreateClientProcedureDto } from './dto/create-client-procedure.dto';
-import { UpdateClientProcedureDto } from './dto/update-client-procedure.dto';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import { permissions } from '../../config/permissions'
+import { RequiredPermission } from '../../decorators/permission.decorator'
+import { ClientProcedureService } from './client-procedure.service'
+import { CreateClientProcedureDto } from './dto/create-client-procedure.dto'
+import { UpdateClientProcedureDto } from './dto/update-client-procedure.dto'
 
 @Controller('client-procedure')
 export class ClientProcedureController {
-  constructor(private readonly clientProcedureService: ClientProcedureService) {}
+  constructor(private readonly service: ClientProcedureService) {}
 
+  @RequiredPermission(permissions.clientProcedure.Create)
   @Post()
-  create(@Body() createClientProcedureDto: CreateClientProcedureDto) {
-    return this.clientProcedureService.create(createClientProcedureDto);
+  create(@Body() dto: CreateClientProcedureDto) {
+    return this.service.create(dto)
   }
 
+  @RequiredPermission(permissions.clientProcedure.Read)
   @Get()
   findAll() {
-    return this.clientProcedureService.findAll();
+    return this.service.findAll()
   }
 
+  @RequiredPermission(permissions.clientProcedure.Read)
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.clientProcedureService.findOne(+id);
+    return this.service.findOne(+id)
   }
 
+  @RequiredPermission(permissions.clientProcedure.Update)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateClientProcedureDto: UpdateClientProcedureDto) {
-    return this.clientProcedureService.update(+id, updateClientProcedureDto);
+  update(@Param('id') id: string, @Body() dto: UpdateClientProcedureDto) {
+    return this.service.update(+id, dto)
   }
 
+  @RequiredPermission(permissions.clientProcedure.Delete)
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.clientProcedureService.remove(+id);
+    return this.service.remove(+id)
   }
 }

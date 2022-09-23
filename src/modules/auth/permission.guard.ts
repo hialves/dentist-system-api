@@ -1,10 +1,11 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
+import { sufixPermissions } from '../../config/permissions'
 import { PERMISSION_KEY } from '../../decorators/permission.decorator'
-import { JwtPayload } from '../../interfaces/jwt.interface'
+import { IRequest } from '../../interfaces/request.interface'
 
 @Injectable()
-export class RolesGuard implements CanActivate {
+export class PermissionGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
@@ -15,7 +16,11 @@ export class RolesGuard implements CanActivate {
     if (!requiredPermission) {
       return true
     }
-    const { user }: { user: JwtPayload } = context.switchToHttp().getRequest()
-    return user.permissions.some((permission) => permission === requiredPermission)
+    const [controller] = requiredPermission.split('_')
+    const { user } = context.switchToHttp().getRequest() as IRequest
+
+    return user.permissions.some(
+      (permission) => permission === `${controller}_${sufixPermissions.Manage}` || permission === requiredPermission,
+    )
   }
 }

@@ -1,34 +1,41 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { BudgetService } from './budget.service';
-import { CreateBudgetDto } from './dto/create-budget.dto';
-import { UpdateBudgetDto } from './dto/update-budget.dto';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import { permissions } from '../../config/permissions'
+import { RequiredPermission } from '../../decorators/permission.decorator'
+import { BudgetService } from './budget.service'
+import { CreateBudgetDto } from './dto/create-budget.dto'
+import { UpdateBudgetDto } from './dto/update-budget.dto'
 
 @Controller('budget')
 export class BudgetController {
-  constructor(private readonly budgetService: BudgetService) {}
+  constructor(private readonly service: BudgetService) {}
 
+  @RequiredPermission(permissions.budget.Create)
   @Post()
-  create(@Body() createBudgetDto: CreateBudgetDto) {
-    return this.budgetService.create(createBudgetDto);
+  create(@Body() dto: CreateBudgetDto) {
+    return this.service.create(dto)
   }
 
+  @RequiredPermission(permissions.budget.Read)
   @Get()
   findAll() {
-    return this.budgetService.findAll();
+    return this.service.findAll()
   }
 
+  @RequiredPermission(permissions.budget.Read)
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.budgetService.findOne(+id);
+    return this.service.findOne(+id)
   }
 
+  @RequiredPermission(permissions.budget.Update)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBudgetDto: UpdateBudgetDto) {
-    return this.budgetService.update(+id, updateBudgetDto);
+  update(@Param('id') id: string, @Body() dto: UpdateBudgetDto) {
+    return this.service.update(+id, dto)
   }
 
+  @RequiredPermission(permissions.budget.Delete)
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.budgetService.remove(+id);
+    return this.service.remove(+id)
   }
 }

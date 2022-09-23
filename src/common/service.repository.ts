@@ -3,8 +3,9 @@ import { DeepPartial, DeleteResult, Repository } from 'typeorm'
 import { BaseEntity } from './entity'
 
 interface IValidateObject {
-  key: string
-  value: any
+  where: {
+    [key: string]: any
+  }
   errorMessage: string
 }
 
@@ -14,18 +15,6 @@ export class BaseService<T> {
 
   constructor(entity: Repository<T>) {
     this.entity = entity
-  }
-
-  async create(dto: T | any, ...args: any): Promise<T | T[]> {
-    return this.entity.save(dto)
-  }
-
-  async findAll(query: any) {
-    return this.entity.find({ where: query })
-  }
-
-  async remove(id: number): Promise<DeleteResult> {
-    return this.entity.delete(id)
   }
 
   async validateIfExists(validateObjects: IValidateObject[] | IValidateObject): Promise<void> {
@@ -41,9 +30,9 @@ export class BaseService<T> {
   }
 
   async handleIfExists(validateObject: IValidateObject): Promise<string | boolean> {
-    const { key, value, errorMessage } = validateObject
+    const { where, errorMessage } = validateObject
     const entity = await this.entity.findOne({
-      where: { [key]: value },
+      where,
     })
     if (entity) return errorMessage
     return false

@@ -5,7 +5,7 @@ export class EmployeeDomain extends BaseEntity {
   @Column({ nullable: false })
   name: string
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, unique: true })
   email: string
 
   @Column({ nullable: false })
@@ -15,13 +15,10 @@ export class EmployeeDomain extends BaseEntity {
   document: string
 
   @Column({ nullable: true })
-  cro: string
+  cro?: string
 
   @Column({ nullable: true })
   photo?: string
-
-  @Column({ nullable: false })
-  roleId: number
 
   @Column({ nullable: true })
   recoverPasswordToken?: string
