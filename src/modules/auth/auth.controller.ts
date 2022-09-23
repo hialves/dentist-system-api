@@ -12,6 +12,7 @@ import { CreateEmployeeDto } from '../employee/dto/create-employee.dto'
 import { EmployeeService } from '../employee/employee.service'
 import { AuthService } from './auth.service'
 import { FinalizeLoginDto } from './dto/finalize-login.dto'
+import { RecoverPasswordDto } from './dto/recover-password.dto'
 import { EmployeeAuthGuard } from './employee-auth.guard'
 import { JwtAuthGuard } from './jwt-auth.guard'
 
@@ -76,7 +77,7 @@ export class AuthController {
   recoverPassword(
     @Param('entity') entity: EntityType,
     @Query('token') token: string,
-    @Body() body: { password: string },
+    @Body() body: RecoverPasswordDto,
   ) {
     return this.authService.resetPassword(entity, token, body.password)
   }

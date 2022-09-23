@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsOptional } from 'class-validator'
+import { IsEmail, IsNotEmpty, IsOptional, MinLength } from 'class-validator'
 
 export class CreateEmployeeDto {
   @IsNotEmpty()
@@ -9,6 +9,7 @@ export class CreateEmployeeDto {
   email: string
 
   @IsNotEmpty()
+  @MinLength(8)
   password: string
 
   @IsNotEmpty()
