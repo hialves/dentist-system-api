@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
     "target": "es2017",
+    "types": ["node", "reflect-metadata", "jest"],
     "module": "commonjs",
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
@@ -11,8 +13,9 @@
     "declaration": true,
     "removeComments": true,
     "allowSyntheticDefaultImports": true,
-    "outDir": "./dist",
-    "typeRoots": ["./src/@types"]
+    "outDir": "./dist"
+    // "typeRoots": ["./src/@types", "**/**/@types"]
   },
+  "include": ["src/**/*", "**/*.spec.ts"],
   "exclude": ["node_modules", "dist", "tmp"]
 }
