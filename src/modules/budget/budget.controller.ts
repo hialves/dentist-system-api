@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
 import { permissions } from '../../config/permissions'
 import { RequiredPermission } from '../../decorators/permission.decorator'
+import { BudgetItemService } from '../budget-item/budget-item.service'
 import { BudgetService } from './budget.service'
 import { CreateBudgetDto } from './dto/create-budget.dto'
 import { UpdateBudgetDto } from './dto/update-budget.dto'
@@ -12,7 +13,9 @@ export class BudgetController {
   @RequiredPermission(permissions.budget.Create)
   @Post()
   create(@Body() dto: CreateBudgetDto) {
-    return this.service.create(dto)
+    const budget = BudgetService.createEntity(dto)
+
+    return this.service.create(budget, dto.procedureIds)
   }
 
   @RequiredPermission(permissions.budget.Read)

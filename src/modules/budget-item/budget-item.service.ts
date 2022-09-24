@@ -1,26 +1,35 @@
-import { Injectable } from '@nestjs/common';
-import { CreateBudgetItemDto } from './dto/create-budget-item.dto';
-import { UpdateBudgetItemDto } from './dto/update-budget-item.dto';
+import { Injectable } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { EntityManager, In, Repository } from 'typeorm'
+import { CreateBudgetItemDto } from './dto/create-budget-item.dto'
+import { BudgetItem } from './entities/budget-item.entity'
 
 @Injectable()
 export class BudgetItemService {
-  create(createBudgetItemDto: CreateBudgetItemDto) {
-    return 'This action adds a new budgetItem';
+  constructor(
+    @InjectRepository(BudgetItem)
+    private readonly repo: Repository<BudgetItem>,
+  ) {}
+
+  async create(budgetItems: BudgetItem[], t?: EntityManager) {
+    if (t) {
+      return t.save(budgetItems)
+    }
+    await this.repo.upsert(budgetItems, ['budgetId', 'procedureId'])
+    return budgetItems
   }
 
-  findAll() {
-    return `This action returns all budgetItem`;
-  }
+  static createEntities(dto: CreateBudgetItemDto) {
+    return dto.procedureIds.map((procedureId) => {
+      const budgetItem = new BudgetItem()
+      budgetItem.budgetId = dto.budgetId
+      budgetItem.procedureId = procedureId
 
-  findOne(id: number) {
-    return `This action returns a #${id} budgetItem`;
-  }
-
-  update(id: number, updateBudgetItemDto: UpdateBudgetItemDto) {
-    return `This action updates a #${id} budgetItem`;
+      return budgetItem
+    })
   }
 
   remove(id: number) {
-    return `This action removes a #${id} budgetItem`;
+    return `This action removes a #${id} budgetItem`
   }
 }
