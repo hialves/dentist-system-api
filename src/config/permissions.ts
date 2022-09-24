@@ -50,11 +50,15 @@ const permissions: PermissionFields = {
 }
 
 const _controllers = Object.keys(permissions)
+let query = 'INSERT INTO permission (name) VALUES '
 
 for (const controller of _controllers) {
   for (const permission of _permissions) {
     Object.assign(permissions[controller], { [permission]: `${controller}_${permission}` })
+    query += `('${controller}_${permission}'),`
   }
 }
 
-export { permissions, sufixPermissions }
+query = query.slice(0, -1)
+
+export { permissions, sufixPermissions, query }
