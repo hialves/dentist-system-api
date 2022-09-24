@@ -24,9 +24,9 @@ export class ClientProcedureDomain extends BaseEntity {
   @Column({ nullable: true, default: false })
   executed?: boolean
 
-  @Column({ nullable: false })
+  @Column('timestamp', { nullable: false })
   startDate: string
 
-  @Column({ nullable: false })
+  @Column('timestamp', { nullable: false })
   endDate: string
 }

@@ -12,7 +12,8 @@ export class ClientProcedureController {
   @RequiredPermission(permissions.clientProcedure.Create)
   @Post()
   create(@Body() dto: CreateClientProcedureDto) {
-    return this.service.create(dto)
+    const clientProcedures = ClientProcedureService.createEntities(dto)
+    return this.service.create(clientProcedures)
   }
 
   @RequiredPermission(permissions.clientProcedure.Read)
