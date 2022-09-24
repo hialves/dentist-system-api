@@ -8,5 +8,6 @@ export class BudgetDomain extends BaseEntity {
   @Column({ nullable: false })
   clinicId: number
 
-  // TODO: employeeId
+  @Column({ nullable: false })
+  employeeId: number
 }

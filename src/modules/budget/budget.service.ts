@@ -41,6 +41,7 @@ export class BudgetService {
     const budget = new Budget()
     budget.clientId = dto.clientId
     budget.clinicId = dto.clinicId
+    budget.employeeId = dto.employeeId
 
     return budget
   }

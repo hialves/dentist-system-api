@@ -9,6 +9,8 @@ export class CreateBudgetDto {
 
   @IsArray()
   @ArrayNotEmpty()
-  @ArrayMinSize(1)
   procedureIds: number[]
+
+  @IsNotEmpty()
+  employeeId: number
 }
