@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, BadRequestException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { DataSource, Repository } from 'typeorm'
 import { BudgetItemService } from '../budget-item/budget-item.service'
@@ -38,6 +38,9 @@ export class BudgetService {
   }
 
   static createEntity(dto: CreateBudgetDto) {
+    if (!dto.clientId || !dto.clinicId || !dto.employeeId) {
+      throw new BadRequestException('Informe cliente, cliníca e funcionário')
+    }
     const budget = new Budget()
     budget.clientId = dto.clientId
     budget.clinicId = dto.clinicId
