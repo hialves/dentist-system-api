@@ -12,7 +12,8 @@ export class MaterialCategoryController {
   @RequiredPermission(permissions.materialCategory.Create)
   @Post()
   create(@Body() dto: CreateMaterialCategoryDto) {
-    return this.service.create(dto)
+    const materialCategories = MaterialCategoryService.createEntities(dto)
+    return this.service.create(materialCategories)
   }
 
   @RequiredPermission(permissions.materialCategory.Read)

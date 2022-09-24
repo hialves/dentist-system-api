@@ -12,7 +12,8 @@ export class MaterialController {
   @RequiredPermission(permissions.material.Create)
   @Post()
   create(@Body() dto: CreateMaterialDto) {
-    return this.service.create(dto)
+    const material = MaterialService.createEntity(dto)
+    return this.service.create(material)
   }
 
   @RequiredPermission(permissions.material.Read)
