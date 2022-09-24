@@ -1,26 +1,26 @@
-import { Injectable } from '@nestjs/common';
-import { CreateExamDto } from './dto/create-exam.dto';
-import { UpdateExamDto } from './dto/update-exam.dto';
+import { Injectable } from '@nestjs/common'
+import { CreateExamDto } from './dto/create-exam.dto'
+import { UpdateExamDto } from './dto/update-exam.dto'
 
 @Injectable()
 export class ExamsService {
   create(createExamDto: CreateExamDto) {
-    return 'This action adds a new exam';
+    return 'This action adds a new exam'
   }
 
   findAll() {
-    return `This action returns all exams`;
+    return `This action returns all exams`
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} exam`;
+    return `This action returns a #${id} exam`
   }
 
   update(id: number, updateExamDto: UpdateExamDto) {
-    return `This action updates a #${id} exam`;
+    return `This action updates a #${id} exam`
   }
 
   remove(id: number) {
-    return `This action removes a #${id} exam`;
+    return `This action removes a #${id} exam`
   }
 }
