@@ -9,7 +9,7 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\"",
-    "start": "nest start",
+    "start": "ts-node src/index.ts",
     "dev": "nest start --watch",
     "debug": "nest start --debug --watch",
     "prod": "node dist/main",
@@ -19,10 +19,11 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "migrate:generate": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:generate -n",
-    "migrate:run": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:run",
-    "migrate:revert": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:revert",
-    "schema:drop": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm schema:drop"
+    "typeorm": "typeorm-ts-node-commonjs --dataSource=./src/data-source.ts",
+    "migrate:generate": "typeorm -- migration:generate -n",
+    "migrate:run": "typeorm ./node_modules/.bin/typeorm migration:run",
+    "migrate:revert": "typeorm ./node_modules/.bin/typeorm migration:revert",
+    "schema:drop": "typeorm ./node_modules/.bin/typeorm schema:drop"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
@@ -41,12 +42,12 @@
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "pg": "^8.8.0",
+    "pg": "^8.4.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
     "ts-node": "^10.9.1",
-    "typeorm": "^0.3.9"
+    "typeorm": "0.3.9"
   },
   "devDependencies": {
     "@golevelup/ts-jest": "^0.3.3",
@@ -57,7 +58,7 @@
     "@types/express": "^4.17.13",
     "@types/jest": "^29.0.3",
     "@types/multer": "^1.4.7",
-    "@types/node": "^16.0.0",
+    "@types/node": "^16.11.10",
     "@types/nodemailer": "^6.4.5",
     "@types/passport-jwt": "^3.0.6",
     "@types/passport-local": "^1.0.34",
@@ -73,6 +74,6 @@
     "ts-jest": "^27.0.3",
     "ts-loader": "^9.2.3",
     "tsconfig-paths": "^3.10.1",
-    "typescript": "^4.3.5"
+    "typescript": "4.5.2"
   }
 }
