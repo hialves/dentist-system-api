@@ -1,5 +1,5 @@
 import { Entity, OneToMany } from 'typeorm'
-import { BaseEntity } from '../../../common/entity'
+import { BaseEntity } from '../../../../common/entity'
 import { Budget } from '../../budget/entities/budget.entity'
 import { ClientProcedure } from '../../client-procedure/entities/client-procedure.entity'
 import { EmployeeClinic } from '../../employee_clinic/entities/employee-clinic.entity'

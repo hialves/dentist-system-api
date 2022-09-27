@@ -1,7 +1,6 @@
-import { Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm'
+import { Entity, OneToMany } from 'typeorm'
 import { ClientProcedure } from '../../client-procedure/entities/client-procedure.entity'
 import { EmployeeClinic } from '../../employee_clinic/entities/employee-clinic.entity'
-import { Role } from '../../role/entities/role.entity'
 import { EmployeeDomain } from './employee.domain'
 
 @Entity('employee')

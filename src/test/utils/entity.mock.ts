@@ -1,8 +1,9 @@
 import { createMock } from '@golevelup/ts-jest'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { BudgetItem } from '../../modules/budget-item/entities/budget-item.entity'
-import { Budget } from '../../modules/budget/entities/budget.entity'
+
+import { BudgetItem } from '../../modules/tenanted/budget-item/entities/budget-item.entity'
+import { Budget } from '../../modules/tenanted/budget/entities/budget.entity'
 
 export const BudgetRepositoryMock = {
   provide: getRepositoryToken(Budget),

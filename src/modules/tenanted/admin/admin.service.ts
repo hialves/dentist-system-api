@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { BaseService } from '../../common/service.repository'
+import { BaseService } from '../../../common/service.repository'
 import { CreateAdminDto } from './dto/create-admin.dto'
 import { Admin } from './entities/admin.entity'
-import { hashPassword } from '../../utils/hash-password'
+import { hashPassword } from '../../../utils/hash-password'
 
 @Injectable()
 export class AdminService extends BaseService<Admin> {

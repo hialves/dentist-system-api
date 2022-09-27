@@ -2,8 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { PermissionService } from './permission.service'
 import { CreatePermissionDto } from './dto/create-permission.dto'
 import { UpdatePermissionDto } from './dto/update-permission.dto'
-import { permissions } from '../../config/permissions'
-import { RequiredPermission } from '../../decorators/permission.decorator'
+import { permissions } from '../../../config/permissions'
+import { RequiredPermission } from '../../../decorators/permission.decorator'
 
 @Controller('permission')
 export class PermissionController {

@@ -14,4 +14,5 @@ export const databaseConfig: PostgresConnectionOptions = {
   synchronize: true,
   migrationsRun: true,
   type: 'postgres',
+  schema: 'public',
 }

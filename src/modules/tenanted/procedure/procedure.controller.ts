@@ -2,8 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ProcedureService } from './procedure.service'
 import { CreateProcedureDto } from './dto/create-procedure.dto'
 import { UpdateProcedureDto } from './dto/update-procedure.dto'
-import { permissions } from '../../config/permissions'
-import { RequiredPermission } from '../../decorators/permission.decorator'
+import { permissions } from '../../../config/permissions'
+import { RequiredPermission } from '../../../decorators/permission.decorator'
 
 @Controller('procedure')
 export class ProcedureController {

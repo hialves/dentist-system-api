@@ -2,9 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestj
 import { EmployeeService } from './employee.service'
 import { CreateEmployeeDto } from './dto/create-employee.dto'
 import { UpdateEmployeeDto } from './dto/update-employee.dto'
-import { Public } from '../../decorators/public.decorator'
-import { RequiredPermission } from '../../decorators/permission.decorator'
-import { permissions } from '../../config/permissions'
+import { Public } from '../../../decorators/public.decorator'
+import { RequiredPermission } from '../../../decorators/permission.decorator'
+import { permissions } from '../../../config/permissions'
 
 @Controller('employee')
 export class EmployeeController {

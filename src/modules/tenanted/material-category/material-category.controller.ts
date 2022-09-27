@@ -2,8 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { MaterialCategoryService } from './material-category.service'
 import { CreateMaterialCategoryDto } from './dto/create-material-category.dto'
 import { UpdateMaterialCategoryDto } from './dto/update-material-category.dto'
-import { permissions } from '../../config/permissions'
-import { RequiredPermission } from '../../decorators/permission.decorator'
+import { permissions } from '../../../config/permissions'
+import { RequiredPermission } from '../../../decorators/permission.decorator'
 
 @Controller('material-category')
 export class MaterialCategoryController {

@@ -2,8 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ExamsService } from './exams.service'
 import { CreateExamDto } from './dto/create-exam.dto'
 import { UpdateExamDto } from './dto/update-exam.dto'
-import { permissions } from '../../config/permissions'
-import { RequiredPermission } from '../../decorators/permission.decorator'
+import { permissions } from '../../../config/permissions'
+import { RequiredPermission } from '../../../decorators/permission.decorator'
 
 @Controller('exams')
 export class ExamsController {

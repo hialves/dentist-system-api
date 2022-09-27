@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
-import { permissions } from '../../config/permissions'
-import { RequiredPermission } from '../../decorators/permission.decorator'
+import { permissions } from '../../../config/permissions'
+import { RequiredPermission } from '../../../decorators/permission.decorator'
 import { ClientProcedureService } from './client-procedure.service'
 import { CreateClientProcedureDto } from './dto/create-client-procedure.dto'
 import { UpdateClientProcedureDto } from './dto/update-client-procedure.dto'

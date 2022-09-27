@@ -2,8 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { RoleService } from './role.service'
 import { CreateRoleDto } from './dto/create-role.dto'
 import { UpdateRoleDto } from './dto/update-role.dto'
-import { RequiredPermission } from '../../decorators/permission.decorator'
-import { permissions } from '../../config/permissions'
+import { RequiredPermission } from '../../../decorators/permission.decorator'
+import { permissions } from '../../../config/permissions'
 
 @Controller('role')
 export class RoleController {

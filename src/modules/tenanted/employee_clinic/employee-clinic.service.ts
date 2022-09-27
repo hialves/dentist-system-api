@@ -1,11 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { EntityManager, Repository } from 'typeorm'
-import { BaseService } from '../../common/service.repository'
+import { BaseService } from '../../../common/service.repository'
 import { Clinic } from '../clinic/entities/clinic.entity'
 import { Employee } from '../employee/entities/employee.entity'
 import { Role } from '../role/entities/role.entity'
-import { CreateEmployeeClinicDto } from './dto/create-employee-clinic.dto'
 import { UpdateEmployeeClinicDto } from './dto/update-employee-clinic.dto'
 import { EmployeeClinic } from './entities/employee-clinic.entity'
 

@@ -1,5 +1,5 @@
 import { Column } from 'typeorm'
-import { BaseEntity } from '../../../common/entity'
+import { BaseEntity } from '../../../../common/entity'
 
 enum ExamFileTypeEnum {
   Pdf = 'pdf',

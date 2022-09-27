@@ -1,5 +1,5 @@
 import { Column } from 'typeorm'
-import { BaseEntity } from '../../../common/entity'
+import { BaseEntity } from '../../../../common/entity'
 
 export class EmployeeDomain extends BaseEntity {
   @Column({ nullable: false })

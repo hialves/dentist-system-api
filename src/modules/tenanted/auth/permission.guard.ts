@@ -1,8 +1,8 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
-import { sufixPermissions } from '../../config/permissions'
-import { PERMISSION_KEY } from '../../decorators/permission.decorator'
-import { IRequest } from '../../interfaces/request.interface'
+import { sufixPermissions } from '../../../config/permissions'
+import { PERMISSION_KEY } from '../../../decorators/permission.decorator'
+import { IRequest } from '../../../interfaces/request.interface'
 
 @Injectable()
 export class PermissionGuard implements CanActivate {

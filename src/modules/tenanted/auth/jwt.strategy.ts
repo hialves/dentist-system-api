@@ -1,7 +1,7 @@
 import { ExtractJwt, Strategy } from 'passport-jwt'
 import { PassportStrategy } from '@nestjs/passport'
 import { Injectable } from '@nestjs/common'
-import { IAccessToken, JwtPayload } from '../../@types/custom'
+import { IAccessToken, JwtPayload } from '../../../@types/custom'
 import { RoleService } from '../role/role.service'
 
 @Injectable()

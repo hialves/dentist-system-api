@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
 import { EmployeeClinicService } from './employee-clinic.service'
 import { UpdateEmployeeClinicDto } from './dto/update-employee-clinic.dto'
-import { RequiredPermission } from '../../decorators/permission.decorator'
-import { permissions } from '../../config/permissions'
+import { RequiredPermission } from '../../../decorators/permission.decorator'
+import { permissions } from '../../../config/permissions'
 
 @Controller('employee-clinic')
 export class EmployeeClinicController {
