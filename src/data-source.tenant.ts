@@ -5,6 +5,6 @@ import { join } from 'path'
 
 export const AppDataSourceTenant = new DataSource({
   ...databaseConfig,
-  entities: [join(__dirname, '..', 'modules/tenanted/*.ts')],
-  migrations: [join(__dirname, '..', 'migrations/tenanted/*.ts')],
+  entities: [join(__dirname, '..', 'modules/tenanted/**/**/*.entity{.js,.ts}')],
+  migrations: [join(__dirname, '..', 'migrations/tenanted/*{.js,.ts}')],
 })
