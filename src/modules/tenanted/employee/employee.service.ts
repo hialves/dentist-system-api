@@ -1,24 +1,21 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { EntityManager, Repository } from 'typeorm'
+import { DataSource, EntityManager, Repository } from 'typeorm'
 import { BaseService } from '../../../common/service.repository'
 import { CreateEmployeeDto } from './dto/create-employee.dto'
 import { Employee } from './entities/employee.entity'
 import { hashPassword } from '../../../utils/hash-password'
-import { TenantService } from '../../public/tenant/tenant.service'
 
 @Injectable()
 export class EmployeeService extends BaseService<Employee> {
   constructor(
     @InjectRepository(Employee)
     private readonly repo: Repository<Employee>,
-    private tenantService: TenantService,
   ) {
     super(repo)
   }
 
-  async create(employee: Employee, tenant: string, t?: EntityManager) {
-    const tenantConnection = await this.tenantService.getTenantConnection(tenant)
+  async create(employee: Employee, tenantDataSource: DataSource, t?: EntityManager) {
     await this.validateIfExists(
       {
         where: {
@@ -26,10 +23,10 @@ export class EmployeeService extends BaseService<Employee> {
         },
         errorMessage: 'Email já cadastrado',
       },
-      tenantConnection.getRepository(Employee),
+      tenantDataSource.getRepository(Employee),
     )
 
-    return t ? t.save(employee) : tenantConnection.manager.save(employee)
+    return t ? t.save(employee) : tenantDataSource.manager.save(employee)
   }
 
   static async createEntity(dto: CreateEmployeeDto): Promise<Employee> {

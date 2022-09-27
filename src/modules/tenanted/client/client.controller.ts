@@ -14,8 +14,9 @@ export class ClientController {
   @Post()
   async create(@Body() dto: CreateClientDto) {
     const client = ClientService.createEntity(dto)
-    const tenantConnection = await this.tenantService.getTenantConnection(tenant)
-    return this.service.create(client)
+    // TODO: fix ''
+    const tenantDataSource = await this.tenantService.getTenantConnection('')
+    return this.service.create(client, tenantDataSource)
   }
 
   @RequiredPermission(permissions.client.Read)

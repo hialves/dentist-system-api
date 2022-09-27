@@ -20,7 +20,7 @@ export class ClinicService {
     private roleService: RoleService,
   ) {}
 
-  async createFirstClinic(dto: CreateFirstClinicDto) {
+  async createFirstClinic(dto: CreateFirstClinicDto, tenantDataSource: DataSource) {
     const employee = await EmployeeService.createEntity(dto.employee)
     const clinic = ClinicService.createEntity(dto.clinic)
     const role = await this.roleService.findOneBySlug(RoleSlugEnum.ClinicOwner)
@@ -32,8 +32,8 @@ export class ClinicService {
 
     try {
       // TODO: fix ''
-      await this.employeeService.create(employee, '', t)
-      await this.create(clinic, t)
+      await this.employeeService.create(employee, tenantDataSource, t)
+      await this.create(clinic, tenantDataSource, t)
 
       const employeeClinic = EmployeeClinicService.createEntity(employee, clinic, role)
       await this.employeeClinicService.create(employeeClinic, t)
@@ -48,8 +48,8 @@ export class ClinicService {
     }
   }
 
-  async create(clinic: Clinic, t?: EntityManager) {
-    return t ? t.save(clinic) : this.repo.save(clinic)
+  async create(clinic: Clinic, tenantDataSource: DataSource, t?: EntityManager) {
+    return t ? t.save(clinic) : tenantDataSource.manager.save(clinic)
   }
 
   static createEntity(dto: ClinicFieldDto) {

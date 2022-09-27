@@ -5,16 +5,19 @@ import { UpdateEmployeeDto } from './dto/update-employee.dto'
 import { Public } from '../../../decorators/public.decorator'
 import { RequiredPermission } from '../../../decorators/permission.decorator'
 import { permissions } from '../../../config/permissions'
+import { TenantService } from '../../public/tenant/tenant.service'
 
 @Controller('employee')
 export class EmployeeController {
-  constructor(private readonly service: EmployeeService) {}
+  constructor(private readonly service: EmployeeService, private tenantService: TenantService) {}
 
   @Public()
   @Post(':tenant')
   async create(@Body() dto: CreateEmployeeDto, @Param(':tenant') tenant: string) {
     const employee = await EmployeeService.createEntity(dto)
-    return this.service.create(employee, tenant)
+    // TODO: fix ''
+    const tenantDataSource = await this.tenantService.getTenantConnection('')
+    return this.service.create(employee, tenantDataSource)
   }
 
   @RequiredPermission(permissions.employee.Read)

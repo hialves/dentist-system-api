@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common'
 import { JwtModule } from '@nestjs/jwt'
 import { PassportModule } from '@nestjs/passport'
 import { AdminModule } from '../admin/admin.module'
-import { ClientModule } from '../client/client.module'
 import { EmployeeModule } from '../employee/employee.module'
 import { EmployeeClinicModule } from '../employee_clinic/employee-clinic.module'
 import { RoleModule } from '../role/role.module'
@@ -15,7 +14,6 @@ import { JwtStrategy } from './jwt.strategy'
 @Module({
   imports: [
     AdminModule,
-    ClientModule,
     EmployeeModule,
     EmployeeClinicModule,
     PassportModule,

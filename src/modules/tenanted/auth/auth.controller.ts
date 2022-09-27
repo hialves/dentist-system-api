@@ -4,10 +4,9 @@ import { EntityType } from '../../../@types'
 import { Public } from '../../../decorators/public.decorator'
 import { IRequest } from '../../../interfaces/request.interface'
 import { MailService } from '../../../mail/mail.service'
+import { TenantService } from '../../public/tenant/tenant.service'
 import { AdminService } from '../admin/admin.service'
 import { CreateAdminDto } from '../admin/dto/create-admin.dto'
-import { ClientService } from '../client/client.service'
-import { CreateClientDto } from '../client/dto/create-client.dto'
 import { CreateEmployeeDto } from '../employee/dto/create-employee.dto'
 import { EmployeeService } from '../employee/employee.service'
 import { AuthService } from './auth.service'
@@ -20,18 +19,11 @@ import { JwtAuthGuard } from './jwt-auth.guard'
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
-    private readonly clientService: ClientService,
     private readonly employeeService: EmployeeService,
     private readonly adminService: AdminService,
     private readonly mailService: MailService,
+    private tenantService: TenantService,
   ) {}
-
-  @Public()
-  @Post('auth/client/register')
-  async clientRegister(@Body() dto: CreateClientDto) {
-    const client = ClientService.createEntity(dto)
-    return this.clientService.create(client)
-  }
 
   @Public()
   @UseGuards(EmployeeAuthGuard)
@@ -50,8 +42,8 @@ export class AuthController {
   @Post('auth/employee/register/:tenant')
   async employeeRegister(@Body() dto: CreateEmployeeDto, @Param('tenant') tenant: string) {
     const employee = await EmployeeService.createEntity(dto)
-    // TODO: fix ''
-    return this.employeeService.create(employee, 'tenant')
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenant)
+    return this.employeeService.create(employee, tenantDataSource)
   }
 
   @Public()
@@ -64,7 +56,9 @@ export class AuthController {
   @Public()
   @Post('auth/admin/register')
   async adminRegister(@Body() dto: CreateAdminDto) {
-    return this.adminService.create(dto)
+    // TODO: fix ''
+    const tenantDataSource = await this.tenantService.getTenantConnection('')
+    return this.adminService.create(dto, tenantDataSource)
   }
 
   @Public()

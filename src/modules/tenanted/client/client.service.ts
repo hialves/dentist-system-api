@@ -15,17 +15,20 @@ export class ClientService extends BaseService<Client> {
     super(repo)
   }
 
-  async create(client: Client, dataSource: DataSource) {
-    await this.validateIfExists([
-      {
-        where: { email: client.email },
-        errorMessage: 'Email já cadastrado',
-      },
-      {
-        where: { document: client.document },
-        errorMessage: 'CPF já cadastrado',
-      },
-    ])
+  async create(client: Client, tenantDataSource: DataSource) {
+    await this.validateIfExists(
+      [
+        {
+          where: { email: client.email },
+          errorMessage: 'Email já cadastrado',
+        },
+        {
+          where: { document: client.document },
+          errorMessage: 'CPF já cadastrado',
+        },
+      ],
+      tenantDataSource.getRepository(Client),
+    )
 
     return this.repo.save(client)
   }

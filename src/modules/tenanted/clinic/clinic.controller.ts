@@ -2,18 +2,21 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { permissions } from '../../../config/permissions'
 import { RequiredPermission } from '../../../decorators/permission.decorator'
 import { Public } from '../../../decorators/public.decorator'
+import { TenantService } from '../../public/tenant/tenant.service'
 import { ClinicService } from './clinic.service'
 import { CreateFirstClinicDto } from './dto/create-first-clinic.dto'
 import { UpdateClinicDto } from './dto/update-clinic.dto'
 
 @Controller('clinic')
 export class ClinicController {
-  constructor(private readonly service: ClinicService) {}
+  constructor(private readonly service: ClinicService, private tenantService: TenantService) {}
 
   @RequiredPermission(permissions.clinic.Create)
   @Post('first-clinic')
-  create(@Body() dto: CreateFirstClinicDto) {
-    return this.service.createFirstClinic(dto)
+  async create(@Body() dto: CreateFirstClinicDto) {
+    // TODO: fix ''
+    const tenantDataSource = await this.tenantService.getTenantConnection('')
+    return this.service.createFirstClinic(dto, tenantDataSource)
   }
 
   @RequiredPermission(permissions.clinic.Read)
