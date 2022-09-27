@@ -1,18 +1,20 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common'
 import { permissions } from '../../../config/permissions'
 import { RequiredPermission } from '../../../decorators/permission.decorator'
+import { TenantService } from '../../public/tenant/tenant.service'
 import { ClientService } from './client.service'
 import { CreateClientDto } from './dto/create-client.dto'
 import { UpdateClientDto } from './dto/update-client.dto'
 
 @Controller('client')
 export class ClientController {
-  constructor(private readonly service: ClientService) {}
+  constructor(private readonly service: ClientService, private tenantService: TenantService) {}
 
   @RequiredPermission(permissions.client.Create)
   @Post()
-  create(@Body() dto: CreateClientDto) {
+  async create(@Body() dto: CreateClientDto) {
     const client = ClientService.createEntity(dto)
+    const tenantConnection = await this.tenantService.getTenantConnection(tenant)
     return this.service.create(client)
   }
 

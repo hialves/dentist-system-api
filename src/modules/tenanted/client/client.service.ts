@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { DataSource, Repository } from 'typeorm'
 import { BaseService } from '../../../common/service.repository'
+import { TenantService } from '../../public/tenant/tenant.service'
 import { CreateClientDto } from './dto/create-client.dto'
 import { Client } from './entities/client.entity'
 
@@ -14,7 +15,7 @@ export class ClientService extends BaseService<Client> {
     super(repo)
   }
 
-  async create(client: Client) {
+  async create(client: Client, dataSource: DataSource) {
     await this.validateIfExists([
       {
         where: { email: client.email },

@@ -31,7 +31,8 @@ export class ClinicService {
     const t = queryRunner.manager
 
     try {
-      await this.employeeService.create(employee, t)
+      // TODO: fix ''
+      await this.employeeService.create(employee, '', t)
       await this.create(clinic, t)
 
       const employeeClinic = EmployeeClinicService.createEntity(employee, clinic, role)

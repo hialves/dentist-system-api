@@ -47,10 +47,11 @@ export class AuthController {
   }
 
   @Public()
-  @Post('auth/employee/register')
-  async employeeRegister(@Body() dto: CreateEmployeeDto) {
+  @Post('auth/employee/register/:tenant')
+  async employeeRegister(@Body() dto: CreateEmployeeDto, @Param('tenant') tenant: string) {
     const employee = await EmployeeService.createEntity(dto)
-    return this.employeeService.create(employee)
+    // TODO: fix ''
+    return this.employeeService.create(employee, 'tenant')
   }
 
   @Public()

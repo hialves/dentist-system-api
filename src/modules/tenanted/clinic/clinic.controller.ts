@@ -10,7 +10,7 @@ import { UpdateClinicDto } from './dto/update-clinic.dto'
 export class ClinicController {
   constructor(private readonly service: ClinicService) {}
 
-  @Public()
+  @RequiredPermission(permissions.clinic.Create)
   @Post('first-clinic')
   create(@Body() dto: CreateFirstClinicDto) {
     return this.service.createFirstClinic(dto)

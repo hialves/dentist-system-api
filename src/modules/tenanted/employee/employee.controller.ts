@@ -11,10 +11,10 @@ export class EmployeeController {
   constructor(private readonly service: EmployeeService) {}
 
   @Public()
-  @Post()
-  async create(@Body() dto: CreateEmployeeDto) {
+  @Post(':tenant')
+  async create(@Body() dto: CreateEmployeeDto, @Param(':tenant') tenant: string) {
     const employee = await EmployeeService.createEntity(dto)
-    return this.service.create(employee)
+    return this.service.create(employee, tenant)
   }
 
   @RequiredPermission(permissions.employee.Read)

@@ -17,21 +17,24 @@ export class BaseService<T> {
     this.entity = entity
   }
 
-  async validateIfExists(validateObjects: IValidateObject[] | IValidateObject): Promise<void> {
+  async validateIfExists(
+    validateObjects: IValidateObject[] | IValidateObject,
+    repository: Repository<any>,
+  ): Promise<void> {
     const errors = []
     const arrayToValidate = Array.isArray(validateObjects) ? [...validateObjects] : [validateObjects]
 
     for (const validate of arrayToValidate) {
-      const exists = await this.handleIfExists(validate)
+      const exists = await this.handleIfExists(validate, repository)
       exists && errors.push(validate.errorMessage)
     }
 
     if (errors.length) throw new BadRequestException(errors)
   }
 
-  async handleIfExists(validateObject: IValidateObject): Promise<string | boolean> {
+  async handleIfExists(validateObject: IValidateObject, repository: Repository<any>): Promise<string | boolean> {
     const { where, errorMessage } = validateObject
-    const entity = await this.entity.findOne({
+    const entity = await repository.findOne({
       where,
     })
     if (entity) return errorMessage

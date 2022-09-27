@@ -18,10 +18,10 @@ export class EmployeeClinicService extends BaseService<EmployeeClinic> {
   }
 
   async create(employeeClinic: EmployeeClinic, t?: EntityManager) {
-    await this.validateIfExists({
-      where: { employeeId: employeeClinic.employeeId, clinicId: employeeClinic.clinicId },
-      errorMessage: 'Já existe um registro deste colaborador com a clínica',
-    })
+    // await this.validateIfExists({
+    //   where: { employeeId: employeeClinic.employeeId, clinicId: employeeClinic.clinicId },
+    //   errorMessage: 'Já existe um registro deste colaborador com a clínica',
+    // })
 
     return t ? t.save(employeeClinic) : await this.repo.save(employeeClinic)
   }

@@ -1,34 +1,37 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { TenantService } from './tenant.service';
-import { CreateTenantDto } from './dto/create-tenant.dto';
-import { UpdateTenantDto } from './dto/update-tenant.dto';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import { TenantService } from './tenant.service'
+import { CreateTenantDto } from './dto/create-tenant.dto'
+import { UpdateTenantDto } from './dto/update-tenant.dto'
+import { Public } from '../../../decorators/public.decorator'
 
 @Controller('tenant')
 export class TenantController {
-  constructor(private readonly tenantService: TenantService) {}
+  constructor(private readonly service: TenantService) {}
 
+  @Public()
   @Post()
-  create(@Body() createTenantDto: CreateTenantDto) {
-    return this.tenantService.create(createTenantDto);
+  async create(@Body() dto: CreateTenantDto) {
+    const tenant = await this.service.createEntity(dto)
+    return this.service.create(tenant)
   }
 
   @Get()
   findAll() {
-    return this.tenantService.findAll();
+    return this.service.findAll()
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.tenantService.findOne(+id);
+    return this.service.findOne(+id)
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTenantDto: UpdateTenantDto) {
-    return this.tenantService.update(+id, updateTenantDto);
+  update(@Param('id') id: string, @Body() dto: UpdateTenantDto) {
+    return this.service.update(+id, dto)
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.tenantService.remove(+id);
+    return this.service.remove(+id)
   }
 }
