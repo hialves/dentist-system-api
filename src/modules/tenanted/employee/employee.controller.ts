@@ -28,8 +28,10 @@ export class EmployeeController {
 
   @RequiredPermission(permissions.employee.Read)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.service.findOne(+id)
+  async findOne(@Param('id') id: string) {
+    // TODO: fix ''
+    const tenantDataSource = await this.tenantService.getTenantConnection('')
+    return this.service.findOne(+id, tenantDataSource)
   }
 
   @RequiredPermission(permissions.employee.Update)

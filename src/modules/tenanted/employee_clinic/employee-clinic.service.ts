@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { EntityManager, Repository } from 'typeorm'
+import { DataSource, EntityManager, Repository } from 'typeorm'
 import { BaseService } from '../../../common/service.repository'
 import { Clinic } from '../clinic/entities/clinic.entity'
 import { Employee } from '../employee/entities/employee.entity'
@@ -9,12 +9,12 @@ import { UpdateEmployeeClinicDto } from './dto/update-employee-clinic.dto'
 import { EmployeeClinic } from './entities/employee-clinic.entity'
 
 @Injectable()
-export class EmployeeClinicService extends BaseService<EmployeeClinic> {
+export class EmployeeClinicService extends BaseService {
   constructor(
     @InjectRepository(EmployeeClinic)
     private readonly repo: Repository<EmployeeClinic>,
   ) {
-    super(repo)
+    super()
   }
 
   async create(employeeClinic: EmployeeClinic, t?: EntityManager) {
@@ -54,7 +54,11 @@ export class EmployeeClinicService extends BaseService<EmployeeClinic> {
     return `This action removes a #${id} employeeClinic`
   }
 
-  findByEmployeeAndClinic(employeeId: number, clinicId: number): Promise<EmployeeClinic | null> {
-    return this.repo.findOneBy({ employeeId, clinicId, active: true })
+  findByEmployeeAndClinic(
+    employeeId: number,
+    clinicId: number,
+    tenantDataSource: DataSource,
+  ): Promise<EmployeeClinic | null> {
+    return tenantDataSource.getRepository(EmployeeClinic).findOneBy({ employeeId, clinicId, active: true })
   }
 }

@@ -10,13 +10,7 @@ interface IValidateObject {
 }
 
 @Injectable()
-export class BaseService<T> {
-  private entity: Repository<any>
-
-  constructor(entity: Repository<T>) {
-    this.entity = entity
-  }
-
+export class BaseService {
   async validateIfExists(
     validateObjects: IValidateObject[] | IValidateObject,
     repository: Repository<any>,
@@ -39,9 +33,5 @@ export class BaseService<T> {
     })
     if (entity) return errorMessage
     return false
-  }
-
-  get repository() {
-    return this.entity
   }
 }

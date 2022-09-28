@@ -7,12 +7,12 @@ import { CreateClientDto } from './dto/create-client.dto'
 import { Client } from './entities/client.entity'
 
 @Injectable()
-export class ClientService extends BaseService<Client> {
+export class ClientService extends BaseService {
   constructor(
     @InjectRepository(Client)
     private readonly repo: Repository<Client>,
   ) {
-    super(repo)
+    super()
   }
 
   async create(client: Client, tenantDataSource: DataSource) {

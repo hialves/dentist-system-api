@@ -1,9 +1,10 @@
 import { Strategy } from 'passport-local'
 import { PassportStrategy } from '@nestjs/passport'
-import { Injectable, Inject, UnauthorizedException, forwardRef } from '@nestjs/common'
+import { Injectable, Inject, forwardRef, BadRequestException } from '@nestjs/common'
 import { AuthService } from './auth.service'
 import { Request } from 'express'
 import { EmployeeService } from '../employee/employee.service'
+import { TenantService } from '../../public/tenant/tenant.service'
 
 @Injectable()
 export class EmployeeStrategy extends PassportStrategy(Strategy, 'employee') {
@@ -11,17 +12,22 @@ export class EmployeeStrategy extends PassportStrategy(Strategy, 'employee') {
     private authService: AuthService,
     @Inject(forwardRef(() => EmployeeService))
     private employeeService: EmployeeService,
+    private tenantService: TenantService,
   ) {
     super({ usernameField: 'email', passReqToCallback: true })
   }
 
   async validate(req: Request): Promise<any> {
     const { email, password } = req.body
+    const { tenant } = req.params
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenant)
+    const dataSourceOptions: any = tenantDataSource.options
+    const tenantSchema: string = dataSourceOptions.schema
+    const employee = await this.authService.validateEntity(email, password, this.employeeService, tenantDataSource)
 
-    const employee = await this.authService.validateEntity(email, password, this.employeeService)
     if (!employee) {
-      throw new UnauthorizedException()
+      throw new BadRequestException('Email ou senha inválidos')
     }
-    return employee
+    return { ...employee, tenantSchema }
   }
 }

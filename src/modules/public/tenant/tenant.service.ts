@@ -10,13 +10,13 @@ import { UpdateTenantDto } from './dto/update-tenant.dto'
 import { Tenant } from './entities/tenant.entity'
 
 @Injectable()
-export class TenantService extends BaseService<Tenant> {
+export class TenantService extends BaseService {
   constructor(
     private dataSource: DataSource,
     @InjectRepository(Tenant)
     private readonly repo: Repository<Tenant>,
   ) {
-    super(repo)
+    super()
   }
 
   async create(tenant: Tenant) {

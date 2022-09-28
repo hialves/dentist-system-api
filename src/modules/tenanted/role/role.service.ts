@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { DataSource, Repository } from 'typeorm'
 import { CreateRoleDto } from './dto/create-role.dto'
 import { UpdateRoleDto } from './dto/update-role.dto'
 import { RoleSlugEnum } from './entities/role.domain'
@@ -37,8 +37,8 @@ export class RoleService {
     return `This action removes a #${id} role`
   }
 
-  async getRolePermissions(roleId: number): Promise<string[]> {
-    const role = await this.repo.findOne({
+  async getRolePermissions(roleId: number, tenantDataSource: DataSource): Promise<string[]> {
+    const role = await tenantDataSource.getRepository(Role).findOne({
       where: { id: roleId },
       relations: ['rolePermissions', 'rolePermissions.permission'],
       cache: {

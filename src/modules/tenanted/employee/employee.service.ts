@@ -7,12 +7,9 @@ import { Employee } from './entities/employee.entity'
 import { hashPassword } from '../../../utils/hash-password'
 
 @Injectable()
-export class EmployeeService extends BaseService<Employee> {
-  constructor(
-    @InjectRepository(Employee)
-    private readonly repo: Repository<Employee>,
-  ) {
-    super(repo)
+export class EmployeeService extends BaseService {
+  constructor() {
+    super()
   }
 
   async create(employee: Employee, tenantDataSource: DataSource, t?: EntityManager) {
@@ -40,12 +37,12 @@ export class EmployeeService extends BaseService<Employee> {
     return employee
   }
 
-  findOne(id: number) {
-    return this.repo.findOne({ where: { id } })
+  findOne(id: number, tenantDataSource: DataSource) {
+    return tenantDataSource.getRepository(Employee).findOne({ where: { id } })
   }
 
-  getCredentials(email: string) {
-    return this.repo.findOne({
+  getCredentials(email: string, tenantDataSource: DataSource) {
+    return tenantDataSource.getRepository(Employee).findOne({
       where: { email },
       select: ['id', 'email', 'password'],
     })

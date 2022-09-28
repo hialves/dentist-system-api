@@ -1,11 +1,9 @@
 import { Module } from '@nestjs/common'
 import { JwtModule } from '@nestjs/jwt'
 import { PassportModule } from '@nestjs/passport'
-import { AdminModule } from '../admin/admin.module'
 import { EmployeeModule } from '../employee/employee.module'
 import { EmployeeClinicModule } from '../employee_clinic/employee-clinic.module'
 import { RoleModule } from '../role/role.module'
-import { AdminStrategy } from './admin.strategy'
 import { AuthController } from './auth.controller'
 import { AuthService } from './auth.service'
 import { EmployeeStrategy } from './employee.strategy'
@@ -13,7 +11,6 @@ import { JwtStrategy } from './jwt.strategy'
 
 @Module({
   imports: [
-    AdminModule,
     EmployeeModule,
     EmployeeClinicModule,
     PassportModule,
@@ -24,7 +21,7 @@ import { JwtStrategy } from './jwt.strategy'
     RoleModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, EmployeeStrategy, JwtStrategy, AdminStrategy],
+  providers: [AuthService, EmployeeStrategy, JwtStrategy],
   exports: [AuthService],
 })
 export class AuthModule {}

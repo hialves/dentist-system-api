@@ -1,5 +1,4 @@
 import { Entity, OneToMany, OneToOne } from 'typeorm'
-import { Admin } from '../../admin/entities/admin.entity'
 import { Employee } from '../../employee/entities/employee.entity'
 import { EmployeeClinic } from '../../employee_clinic/entities/employee-clinic.entity'
 import { RolePermission } from '../../role_permission/entities/role_permission.entity'
@@ -9,9 +8,6 @@ import { RoleDomain, RoleSlugEnum } from './role.domain'
 export class Role extends RoleDomain {
   @OneToMany(() => RolePermission, (relation) => relation.role)
   rolePermissions: RolePermission[]
-
-  @OneToOne(() => Admin, (relation) => relation.role)
-  admin: Admin
 
   @OneToMany(() => EmployeeClinic, (relation) => relation.role)
   employeeClinics: EmployeeClinic[]

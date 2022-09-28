@@ -1,12 +1,9 @@
 import { Body, Controller, Param, Post, Query, Request, UseGuards } from '@nestjs/common'
-import { AuthGuard } from '@nestjs/passport'
 import { EntityType } from '../../../@types'
 import { Public } from '../../../decorators/public.decorator'
 import { IRequest } from '../../../interfaces/request.interface'
 import { MailService } from '../../../mail/mail.service'
 import { TenantService } from '../../public/tenant/tenant.service'
-import { AdminService } from '../admin/admin.service'
-import { CreateAdminDto } from '../admin/dto/create-admin.dto'
 import { CreateEmployeeDto } from '../employee/dto/create-employee.dto'
 import { EmployeeService } from '../employee/employee.service'
 import { AuthService } from './auth.service'
@@ -20,22 +17,23 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly employeeService: EmployeeService,
-    private readonly adminService: AdminService,
     private readonly mailService: MailService,
     private tenantService: TenantService,
   ) {}
 
   @Public()
   @UseGuards(EmployeeAuthGuard)
-  @Post('auth/employee/login')
+  @Post('auth/employee/login/:tenant')
   async employeeLogin(@Request() req) {
-    return this.authService.login(req.user)
+    const { tenantSchema, ...user } = req
+    return this.authService.login(user, tenantSchema)
   }
 
   @UseGuards(JwtAuthGuard)
   @Post('auth/employee/finalize-login')
   async employeeFinalizeLogin(@Request() req: IRequest, @Body() body: FinalizeLoginDto) {
-    return this.authService.finalizeLoginEmployee(req.user, body.clinicId)
+    const tenantDataSource = await this.tenantService.getTenantConnectionBySchemaName(req.user.tenantSchema)
+    return this.authService.finalizeLoginEmployee(req.user, body.clinicId, tenantDataSource)
   }
 
   @Public()
@@ -46,35 +44,35 @@ export class AuthController {
     return this.employeeService.create(employee, tenantDataSource)
   }
 
-  @Public()
-  @UseGuards(AuthGuard('admin'))
-  @Post('auth/admin/login')
-  async adminLogin(@Request() req) {
-    return this.authService.login(req.user)
-  }
+  // @Public()
+  // @UseGuards(AuthGuard('admin'))
+  // @Post('auth/admin/login')
+  // async adminLogin(@Request() req) {
+  //   return this.authService.login(req.user)
+  // }
+
+  // @Public()
+  // @Post('auth/admin/register')
+  // async adminRegister(@Body() dto: CreateAdminDto) {
+  //   // TODO: fix ''
+  //   const tenantDataSource = await this.tenantService.getTenantConnection('')
+  //   return this.adminService.create(dto, tenantDataSource)
+  // }
 
   @Public()
-  @Post('auth/admin/register')
-  async adminRegister(@Body() dto: CreateAdminDto) {
+  @Post('send-email-recover-password')
+  async sendRecoverPassword(@Body() body: { email: string }) {
     // TODO: fix ''
     const tenantDataSource = await this.tenantService.getTenantConnection('')
-    return this.adminService.create(dto, tenantDataSource)
+    return this.authService.sendRecoverPasswordEmail(body.email, tenantDataSource)
   }
 
   @Public()
-  @Post('send-email-recover-password/:entity')
-  sendRecoverPassword(@Param('entity') entity: EntityType, @Body() body: { email: string }) {
-    return this.authService.sendRecoverPasswordEmail(entity, body.email)
-  }
-
-  @Public()
-  @Post('recover-password/:entity')
-  recoverPassword(
-    @Param('entity') entity: EntityType,
-    @Query('token') token: string,
-    @Body() body: RecoverPasswordDto,
-  ) {
-    return this.authService.resetPassword(entity, token, body.password)
+  @Post('recover-password')
+  async recoverPassword(@Query('token') token: string, @Body() body: RecoverPasswordDto) {
+    // TODO: fix ''
+    const tenantDataSource = await this.tenantService.getTenantConnection('')
+    return this.authService.resetPassword(token, body.password, tenantDataSource)
   }
 
   @Public()

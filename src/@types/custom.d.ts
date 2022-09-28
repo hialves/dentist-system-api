@@ -5,6 +5,7 @@ export interface IAccessToken {
   email: string
   roleId?: number | null
   clinicId?: number
+  tenantSchema: string
 }
 
 export interface JwtPayload extends IAccessToken {
