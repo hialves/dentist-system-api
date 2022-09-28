@@ -25,14 +25,13 @@ export class AuthController {
   @UseGuards(EmployeeAuthGuard)
   @Post('auth/employee/login/:tenant')
   async employeeLogin(@Request() req) {
-    const { tenantSchema, ...user } = req
+    const { tenantSchema, ...user } = req.user
     return this.authService.login(user, tenantSchema)
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post('auth/employee/finalize-login')
   async employeeFinalizeLogin(@Request() req: IRequest, @Body() body: FinalizeLoginDto) {
-    const tenantDataSource = await this.tenantService.getTenantConnectionBySchemaName(req.user.tenantSchema)
+    const tenantDataSource = await this.tenantService.getTenantConnection(req.user.tenantSchema)
     return this.authService.finalizeLoginEmployee(req.user, body.clinicId, tenantDataSource)
   }
 
@@ -40,7 +39,7 @@ export class AuthController {
   @Post('auth/employee/register/:tenant')
   async employeeRegister(@Body() dto: CreateEmployeeDto, @Param('tenant') tenant: string) {
     const employee = await EmployeeService.createEntity(dto)
-    const tenantDataSource = await this.tenantService.getTenantConnection(tenant)
+    const tenantDataSource = await this.tenantService.getTenantConnectionByExternalRef(tenant)
     return this.employeeService.create(employee, tenantDataSource)
   }
 
@@ -55,7 +54,7 @@ export class AuthController {
   // @Post('auth/admin/register')
   // async adminRegister(@Body() dto: CreateAdminDto) {
   //   // TODO: fix ''
-  //   const tenantDataSource = await this.tenantService.getTenantConnection('')
+  //   const tenantDataSource = await this.tenantService.getTenantConnectionByExternalRef('')
   //   return this.adminService.create(dto, tenantDataSource)
   // }
 
@@ -63,7 +62,7 @@ export class AuthController {
   @Post('send-email-recover-password')
   async sendRecoverPassword(@Body() body: { email: string }) {
     // TODO: fix ''
-    const tenantDataSource = await this.tenantService.getTenantConnection('')
+    const tenantDataSource = await this.tenantService.getTenantConnectionByExternalRef('')
     return this.authService.sendRecoverPasswordEmail(body.email, tenantDataSource)
   }
 
@@ -71,7 +70,7 @@ export class AuthController {
   @Post('recover-password')
   async recoverPassword(@Query('token') token: string, @Body() body: RecoverPasswordDto) {
     // TODO: fix ''
-    const tenantDataSource = await this.tenantService.getTenantConnection('')
+    const tenantDataSource = await this.tenantService.getTenantConnectionByExternalRef('')
     return this.authService.resetPassword(token, body.password, tenantDataSource)
   }
 

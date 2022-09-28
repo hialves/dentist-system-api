@@ -28,7 +28,7 @@ export class TenantService extends BaseService {
       await queryRunner.manager.save(tenant)
       await this.dataSource.query(`CREATE SCHEMA IF NOT EXISTS "${tenant.schemaName}"`)
 
-      const tenantDataSource = await this.getTenantConnectionBySchemaName(tenant.schemaName)
+      const tenantDataSource = await this.getTenantConnection(tenant.schemaName)
       // TODO: uncomment
       // await tenantDataSource.runMigrations()
       await tenantDataSource.destroy()
@@ -81,14 +81,22 @@ export class TenantService extends BaseService {
     return tenantName.toLowerCase()
   }
 
-  async getTenantConnectionBySchemaName(schemaName: string) {
+  /**
+   *
+   * Used in signed calls
+   */
+  async getTenantConnection(schemaName: string) {
     const tenantDataSource = AppDataSourceTenant(schemaName)
     await tenantDataSource.initialize()
 
     return tenantDataSource
   }
 
-  async getTenantConnection(schemaExternalRef: string) {
+  /**
+   *
+   * Used in non-signed calls
+   */
+  async getTenantConnectionByExternalRef(schemaExternalRef: string) {
     const tenant = await this.repo.findOneBy({ schemaExternalRef })
     const tenantDataSource = AppDataSourceTenant(tenant.schemaName)
     await tenantDataSource.initialize()

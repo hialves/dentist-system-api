@@ -15,7 +15,6 @@ export class ClinicService {
     @InjectRepository(Clinic)
     private readonly repo: Repository<Clinic>,
     private employeeService: EmployeeService,
-    private dataSource: DataSource,
     private employeeClinicService: EmployeeClinicService,
     private roleService: RoleService,
   ) {}
@@ -23,9 +22,9 @@ export class ClinicService {
   async createFirstClinic(dto: CreateFirstClinicDto, tenantDataSource: DataSource) {
     const employee = await EmployeeService.createEntity(dto.employee)
     const clinic = ClinicService.createEntity(dto.clinic)
-    const role = await this.roleService.findOneBySlug(RoleSlugEnum.ClinicOwner)
+    const role = await this.roleService.findOneBySlug(RoleSlugEnum.ClinicOwner, tenantDataSource)
 
-    const queryRunner = this.dataSource.createQueryRunner()
+    const queryRunner = tenantDataSource.createQueryRunner()
     await queryRunner.connect()
     await queryRunner.startTransaction()
     const t = queryRunner.manager
@@ -77,7 +76,7 @@ export class ClinicService {
     return `This action removes a #${id} clinic`
   }
 
-  getEmployeeClinics(employeeId: number): Promise<Clinic[]> {
-    return this.repo.find({ where: { employeeClinics: { active: true, employeeId } } })
+  getEmployeeClinics(employeeId: number, tenantDataSource: DataSource): Promise<Clinic[]> {
+    return tenantDataSource.getRepository(Clinic).find({ where: { employeeClinics: { active: true, employeeId } } })
   }
 }

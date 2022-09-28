@@ -16,7 +16,7 @@ export class EmployeeController {
   async create(@Body() dto: CreateEmployeeDto, @Param(':tenant') tenant: string) {
     const employee = await EmployeeService.createEntity(dto)
     // TODO: fix ''
-    const tenantDataSource = await this.tenantService.getTenantConnection('')
+    const tenantDataSource = await this.tenantService.getTenantConnectionByExternalRef('')
     return this.service.create(employee, tenantDataSource)
   }
 
@@ -30,7 +30,7 @@ export class EmployeeController {
   @Get(':id')
   async findOne(@Param('id') id: string) {
     // TODO: fix ''
-    const tenantDataSource = await this.tenantService.getTenantConnection('')
+    const tenantDataSource = await this.tenantService.getTenantConnectionByExternalRef('')
     return this.service.findOne(+id, tenantDataSource)
   }
 

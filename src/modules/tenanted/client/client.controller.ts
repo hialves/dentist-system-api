@@ -15,7 +15,7 @@ export class ClientController {
   async create(@Body() dto: CreateClientDto) {
     const client = ClientService.createEntity(dto)
     // TODO: fix ''
-    const tenantDataSource = await this.tenantService.getTenantConnection('')
+    const tenantDataSource = await this.tenantService.getTenantConnectionByExternalRef('')
     return this.service.create(client, tenantDataSource)
   }
 

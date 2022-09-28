@@ -16,7 +16,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   async validate(payload: IAccessToken): Promise<JwtPayload> {
-    const tenantDataSource = await this.tenantService.getTenantConnectionBySchemaName(payload.tenantSchema)
+    const tenantDataSource = await this.tenantService.getTenantConnection(payload.tenantSchema)
     const permissions = await this.roleService.getRolePermissions(payload.roleId, tenantDataSource)
 
     return { ...payload, permissions }

@@ -13,19 +13,16 @@ import { UpdateClinicDto } from './dto/update-clinic.dto'
 export class ClinicController {
   constructor(private readonly service: ClinicService, private tenantService: TenantService) {}
 
-  @RequiredPermission(permissions.clinic.Create)
-  @Post('first-clinic')
-  async createFirstClinic(@Body() dto: CreateFirstClinicDto) {
-    // TODO: fix ''
-    const tenantDataSource = await this.tenantService.getTenantConnection('')
+  @Public()
+  @Post('first-clinic/:tenant')
+  async createFirstClinic(@Body() dto: CreateFirstClinicDto, @Param('tenant') tenant: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnectionByExternalRef(tenant)
     return this.service.createFirstClinic(dto, tenantDataSource)
   }
 
   @RequiredPermission(permissions.clinic.Create)
   @Post()
   async create(@Body() dto: CreateClinicDto, @TenantSchema() tenantSchema: string) {
-    // TODO: fix ''
-    console.log({ tenantSchema })
     const clinic = ClinicService.createEntity(dto)
     const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
     return this.service.create(clinic, tenantDataSource)
@@ -35,12 +32,6 @@ export class ClinicController {
   @Get()
   findAll() {
     return this.service.findAll()
-  }
-
-  @Public()
-  @Get('employee/clinics/:employeeId')
-  getEmployeeClinics(@Param('employeeId') employeeId: string) {
-    return this.service.getEmployeeClinics(+employeeId)
   }
 
   @RequiredPermission(permissions.clinic.Read)
@@ -59,5 +50,12 @@ export class ClinicController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.service.remove(+id)
+  }
+
+  @RequiredPermission(permissions.clinic.Read)
+  @Get('employee/clinics/:employeeId')
+  async getEmployeeClinics(@Param('employeeId') employeeId: string, @TenantSchema() tenantSchema: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
+    return this.service.getEmployeeClinics(+employeeId, tenantDataSource)
   }
 }

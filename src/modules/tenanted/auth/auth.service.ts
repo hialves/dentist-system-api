@@ -60,7 +60,7 @@ export class AuthService {
     )
 
     if (!employeeClinic) {
-      throw new BadRequestException('Vínculo não encontrado')
+      throw new BadRequestException('Vínculo não encontrado ou vínculo inativo')
     }
 
     const payload: IAccessToken = {

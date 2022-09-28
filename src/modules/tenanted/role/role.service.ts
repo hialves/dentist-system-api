@@ -25,8 +25,8 @@ export class RoleService {
     return this.repo.findOneBy({ id })
   }
 
-  findOneBySlug(slug: RoleSlugEnum) {
-    return this.repo.findOneBy({ slug })
+  findOneBySlug(slug: RoleSlugEnum, tenantDataSource: DataSource) {
+    return tenantDataSource.getRepository(Role).findOneBy({ slug })
   }
 
   update(id: number, updateRoleDto: UpdateRoleDto) {
