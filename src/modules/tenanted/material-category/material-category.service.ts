@@ -1,19 +1,15 @@
 import { Injectable } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { DataSource } from 'typeorm'
 import { CreateMaterialCategoryDto } from './dto/create-material-category.dto'
 import { UpdateMaterialCategoryDto } from './dto/update-material-category.dto'
 import { MaterialCategory } from './entities/material-category.entity'
 
 @Injectable()
 export class MaterialCategoryService {
-  constructor(
-    @InjectRepository(MaterialCategory)
-    private readonly repo: Repository<MaterialCategory>,
-  ) {}
+  constructor() {}
 
-  create(materialCategories: MaterialCategory[]) {
-    return this.repo.save(materialCategories)
+  create(materialCategories: MaterialCategory[], tenantDataSource: DataSource) {
+    return tenantDataSource.getRepository(MaterialCategory).save(materialCategories)
   }
 
   static createEntities(dto: CreateMaterialCategoryDto) {

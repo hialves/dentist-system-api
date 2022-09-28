@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { DataSource, EntityManager, Repository } from 'typeorm'
+import { DataSource, EntityManager } from 'typeorm'
 import { BaseService } from '../../../common/service.repository'
 import { Clinic } from '../clinic/entities/clinic.entity'
 import { Employee } from '../employee/entities/employee.entity'
@@ -10,20 +9,17 @@ import { EmployeeClinic } from './entities/employee-clinic.entity'
 
 @Injectable()
 export class EmployeeClinicService extends BaseService {
-  constructor(
-    @InjectRepository(EmployeeClinic)
-    private readonly repo: Repository<EmployeeClinic>,
-  ) {
+  constructor() {
     super()
   }
 
-  async create(employeeClinic: EmployeeClinic, t?: EntityManager) {
+  async create(employeeClinic: EmployeeClinic, tenantDataSource: DataSource, t?: EntityManager) {
     // await this.validateIfExists({
     //   where: { employeeId: employeeClinic.employeeId, clinicId: employeeClinic.clinicId },
     //   errorMessage: 'Já existe um registro deste colaborador com a clínica',
     // })
 
-    return t ? t.save(employeeClinic) : await this.repo.save(employeeClinic)
+    return t ? t.save(employeeClinic) : await tenantDataSource.getRepository(EmployeeClinic).save(employeeClinic)
   }
 
   static createEntity(employee: Employee, clinic: Clinic, role: Role) {

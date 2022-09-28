@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { DataSource, Repository } from 'typeorm'
+import { DataSource } from 'typeorm'
 import { CreateRoleDto } from './dto/create-role.dto'
 import { UpdateRoleDto } from './dto/update-role.dto'
 import { RoleSlugEnum } from './entities/role.domain'
@@ -8,10 +7,7 @@ import { Role } from './entities/role.entity'
 
 @Injectable()
 export class RoleService {
-  constructor(
-    @InjectRepository(Role)
-    private readonly repo: Repository<Role>,
-  ) {}
+  constructor() {}
 
   create(createRoleDto: CreateRoleDto) {
     return 'This action adds a new role'
@@ -21,8 +17,8 @@ export class RoleService {
     return `This action returns all role`
   }
 
-  findOne(id: number) {
-    return this.repo.findOneBy({ id })
+  findOne(id: number, tenantDataSource: DataSource) {
+    return tenantDataSource.getRepository(Role).findOneBy({ id })
   }
 
   findOneBySlug(slug: RoleSlugEnum, tenantDataSource: DataSource) {

@@ -1,19 +1,15 @@
 import { Injectable } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { DataSource } from 'typeorm'
 import { CreateClientProcedureDto } from './dto/create-client-procedure.dto'
 import { UpdateClientProcedureDto } from './dto/update-client-procedure.dto'
 import { ClientProcedure } from './entities/client-procedure.entity'
 
 @Injectable()
 export class ClientProcedureService {
-  constructor(
-    @InjectRepository(ClientProcedure)
-    private readonly repo: Repository<ClientProcedure>,
-  ) {}
+  constructor() {}
 
-  create(clientProcedures: ClientProcedure[]) {
-    return this.repo.save(clientProcedures)
+  create(clientProcedures: ClientProcedure[], tenantDataSource: DataSource) {
+    return tenantDataSource.getRepository(ClientProcedure).save(clientProcedures)
   }
 
   static createEntities(dto: CreateClientProcedureDto) {

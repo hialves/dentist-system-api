@@ -1,21 +1,17 @@
 import { Injectable } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { DataSource, Repository } from 'typeorm'
+import { DataSource } from 'typeorm'
 import { BaseService } from '../../../common/service.repository'
-import { TenantService } from '../../public/tenant/tenant.service'
 import { CreateClientDto } from './dto/create-client.dto'
 import { Client } from './entities/client.entity'
 
 @Injectable()
 export class ClientService extends BaseService {
-  constructor(
-    @InjectRepository(Client)
-    private readonly repo: Repository<Client>,
-  ) {
+  constructor() {
     super()
   }
 
   async create(client: Client, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(Client)
     await this.validateIfExists(
       [
         {
@@ -27,10 +23,10 @@ export class ClientService extends BaseService {
           errorMessage: 'CPF já cadastrado',
         },
       ],
-      tenantDataSource.getRepository(Client),
+      repository,
     )
 
-    return this.repo.save(client)
+    return repository.save(client)
   }
 
   static createEntity(dto: CreateClientDto) {
@@ -43,7 +39,7 @@ export class ClientService extends BaseService {
     return client
   }
 
-  async findOne(id: number) {
-    return this.repo.findOne({ where: { id } })
+  async findOne(id: number, tenantDataSource: DataSource) {
+    return tenantDataSource.getRepository(Client).findOne({ where: { id } })
   }
 }

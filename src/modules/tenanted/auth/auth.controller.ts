@@ -1,5 +1,4 @@
 import { Body, Controller, Param, Post, Query, Request, UseGuards } from '@nestjs/common'
-import { EntityType } from '../../../@types'
 import { Public } from '../../../decorators/public.decorator'
 import { IRequest } from '../../../interfaces/request.interface'
 import { MailService } from '../../../mail/mail.service'
@@ -10,7 +9,6 @@ import { AuthService } from './auth.service'
 import { FinalizeLoginDto } from './dto/finalize-login.dto'
 import { RecoverPasswordDto } from './dto/recover-password.dto'
 import { EmployeeAuthGuard } from './employee-auth.guard'
-import { JwtAuthGuard } from './jwt-auth.guard'
 
 @Controller()
 export class AuthController {

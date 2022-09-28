@@ -1,21 +1,17 @@
 import { Injectable } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { EntityManager, In, Repository } from 'typeorm'
+import { DataSource, EntityManager } from 'typeorm'
 import { CreateBudgetItemDto } from './dto/create-budget-item.dto'
 import { BudgetItem } from './entities/budget-item.entity'
 
 @Injectable()
 export class BudgetItemService {
-  constructor(
-    @InjectRepository(BudgetItem)
-    private readonly repo: Repository<BudgetItem>,
-  ) {}
+  constructor() {}
 
-  async create(budgetItems: BudgetItem[], t?: EntityManager) {
+  async create(budgetItems: BudgetItem[], tenantDataSource: DataSource, t?: EntityManager) {
     if (t) {
       return t.save(budgetItems)
     }
-    await this.repo.upsert(budgetItems, ['budgetId', 'procedureId'])
+    await tenantDataSource.getRepository(BudgetItem).upsert(budgetItems, ['budgetId', 'procedureId'])
     return budgetItems
   }
 

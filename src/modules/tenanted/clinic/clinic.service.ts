@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { DataSource, EntityManager, Repository } from 'typeorm'
+import { DataSource, EntityManager } from 'typeorm'
 import { EmployeeService } from '../employee/employee.service'
 import { EmployeeClinicService } from '../employee_clinic/employee-clinic.service'
 import { RoleSlugEnum } from '../role/entities/role.domain'
@@ -12,8 +11,6 @@ import { Clinic } from './entities/clinic.entity'
 @Injectable()
 export class ClinicService {
   constructor(
-    @InjectRepository(Clinic)
-    private readonly repo: Repository<Clinic>,
     private employeeService: EmployeeService,
     private employeeClinicService: EmployeeClinicService,
     private roleService: RoleService,
@@ -35,7 +32,7 @@ export class ClinicService {
       await this.create(clinic, tenantDataSource, t)
 
       const employeeClinic = EmployeeClinicService.createEntity(employee, clinic, role)
-      await this.employeeClinicService.create(employeeClinic, t)
+      await this.employeeClinicService.create(employeeClinic, tenantDataSource, t)
 
       await queryRunner.commitTransaction()
       return employee
@@ -64,8 +61,8 @@ export class ClinicService {
     return `This action returns all clinic`
   }
 
-  findOne(id: number) {
-    return this.repo.findOneBy({ id })
+  findOne(id: number, tenantDataSource: DataSource) {
+    return tenantDataSource.getRepository(Clinic).findOneBy({ id })
   }
 
   update(id: number, updateClinicDto: UpdateClinicDto) {

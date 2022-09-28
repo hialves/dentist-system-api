@@ -1,6 +1,5 @@
 import { Injectable, BadRequestException } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { DataSource, Repository } from 'typeorm'
+import { DataSource } from 'typeorm'
 import { BudgetItemService } from '../budget-item/budget-item.service'
 import { CreateBudgetDto } from './dto/create-budget.dto'
 import { UpdateBudgetDto } from './dto/update-budget.dto'
@@ -8,12 +7,7 @@ import { Budget } from './entities/budget.entity'
 
 @Injectable()
 export class BudgetService {
-  constructor(
-    @InjectRepository(Budget)
-    private readonly repo: Repository<Budget>,
-    private dataSource: DataSource,
-    private budgetItemService: BudgetItemService,
-  ) {}
+  constructor(private dataSource: DataSource, private budgetItemService: BudgetItemService) {}
 
   async create(budget: Budget, procedureIds: number[]) {
     const queryRunner = this.dataSource.createQueryRunner()

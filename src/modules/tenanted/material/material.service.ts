@@ -1,19 +1,15 @@
 import { Injectable } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { DataSource } from 'typeorm'
 import { CreateMaterialDto } from './dto/create-material.dto'
 import { UpdateMaterialDto } from './dto/update-material.dto'
 import { Material } from './entities/material.entity'
 
 @Injectable()
 export class MaterialService {
-  constructor(
-    @InjectRepository(Material)
-    private readonly repo: Repository<Material>,
-  ) {}
+  constructor() {}
 
-  create(material: Material) {
-    return this.repo.save(material)
+  create(material: Material, tenantDataSource: DataSource) {
+    return tenantDataSource.getRepository(Material).save(material)
   }
 
   static createEntity(dto: CreateMaterialDto) {
