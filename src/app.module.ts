@@ -3,7 +3,6 @@ import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { databaseConfig } from './config/database'
-import { AdminModule } from './modules/tenanted/admin/admin.module'
 import { ClientModule } from './modules/tenanted/client/client.module'
 import { AuthModule } from './modules/tenanted/auth/auth.module'
 import { EmployeeModule } from './modules/tenanted/employee/employee.module'
@@ -33,7 +32,6 @@ import { TenantModule } from './modules/public/tenant/tenant.module'
       isGlobal: true,
     }),
     TypeOrmModule.forRoot(databaseConfig),
-    AdminModule,
     AuthModule,
     ClientModule,
     EmployeeModule,
