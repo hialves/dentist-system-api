@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import { Controller, Post, Body, Param, Delete } from '@nestjs/common'
 import { permissions } from '../../../config/permissions'
 import { RequiredPermission } from '../../../decorators/permission.decorator'
 import { TenantSchema } from '../../../decorators/tenant-schema.decorator'
