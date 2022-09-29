@@ -4,16 +4,19 @@ import { CreateMaterialCategoryDto } from './dto/create-material-category.dto'
 import { UpdateMaterialCategoryDto } from './dto/update-material-category.dto'
 import { permissions } from '../../../config/permissions'
 import { RequiredPermission } from '../../../decorators/permission.decorator'
+import { TenantService } from '../../public/tenant/tenant.service'
+import { TenantSchema } from '../../../decorators/tenant-schema.decorator'
 
 @Controller('material-category')
 export class MaterialCategoryController {
-  constructor(private readonly service: MaterialCategoryService) {}
+  constructor(private readonly service: MaterialCategoryService, private tenantService: TenantService) {}
 
   @RequiredPermission(permissions.materialCategory.Create)
   @Post()
-  create(@Body() dto: CreateMaterialCategoryDto) {
+  async create(@Body() dto: CreateMaterialCategoryDto, @TenantSchema() tenantSchema: string) {
     const materialCategories = MaterialCategoryService.createEntities(dto)
-    return this.service.create(materialCategories)
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
+    return this.service.create(materialCategories, tenantDataSource)
   }
 
   @RequiredPermission(permissions.materialCategory.Read)

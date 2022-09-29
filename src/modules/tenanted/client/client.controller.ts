@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common'
 import { permissions } from '../../../config/permissions'
 import { RequiredPermission } from '../../../decorators/permission.decorator'
+import { TenantSchema } from '../../../decorators/tenant-schema.decorator'
 import { TenantService } from '../../public/tenant/tenant.service'
 import { ClientService } from './client.service'
 import { CreateClientDto } from './dto/create-client.dto'
@@ -27,8 +28,9 @@ export class ClientController {
 
   @RequiredPermission(permissions.client.Read)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.service.findOne(+id)
+  async findOne(@Param('id') id: string, @TenantSchema() tenantSchema: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
+    return this.service.findOne(+id, tenantDataSource)
   }
 
   @RequiredPermission(permissions.client.Update)

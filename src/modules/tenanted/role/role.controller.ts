@@ -4,10 +4,12 @@ import { CreateRoleDto } from './dto/create-role.dto'
 import { UpdateRoleDto } from './dto/update-role.dto'
 import { RequiredPermission } from '../../../decorators/permission.decorator'
 import { permissions } from '../../../config/permissions'
+import { TenantService } from '../../public/tenant/tenant.service'
+import { TenantSchema } from '../../../decorators/tenant-schema.decorator'
 
 @Controller('role')
 export class RoleController {
-  constructor(private readonly service: RoleService) {}
+  constructor(private readonly service: RoleService, private tenantService: TenantService) {}
 
   @RequiredPermission(permissions.role.Create)
   @Post()
@@ -23,8 +25,9 @@ export class RoleController {
 
   @RequiredPermission(permissions.role.Read)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.service.findOne(+id)
+  async findOne(@Param('id') id: string, @TenantSchema() tenantSchema: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
+    return this.service.findOne(+id, tenantDataSource)
   }
 
   @RequiredPermission(permissions.role.Update)

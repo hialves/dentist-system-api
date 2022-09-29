@@ -1,20 +1,23 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
 import { permissions } from '../../../config/permissions'
 import { RequiredPermission } from '../../../decorators/permission.decorator'
+import { TenantSchema } from '../../../decorators/tenant-schema.decorator'
+import { TenantService } from '../../public/tenant/tenant.service'
 import { BudgetService } from './budget.service'
 import { CreateBudgetDto } from './dto/create-budget.dto'
 import { UpdateBudgetDto } from './dto/update-budget.dto'
 
 @Controller('budget')
 export class BudgetController {
-  constructor(private readonly service: BudgetService) {}
+  constructor(private readonly service: BudgetService, private tenantService: TenantService) {}
 
   @RequiredPermission(permissions.budget.Create)
   @Post()
-  create(@Body() dto: CreateBudgetDto) {
+  async create(@Body() dto: CreateBudgetDto, @TenantSchema() tenantSchema: string) {
     const budget = BudgetService.createEntity(dto)
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
 
-    return this.service.create(budget, dto.procedureIds)
+    return this.service.create(budget, dto.procedureIds, tenantDataSource)
   }
 
   @RequiredPermission(permissions.budget.Read)

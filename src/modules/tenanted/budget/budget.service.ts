@@ -7,10 +7,10 @@ import { Budget } from './entities/budget.entity'
 
 @Injectable()
 export class BudgetService {
-  constructor(private dataSource: DataSource, private budgetItemService: BudgetItemService) {}
+  constructor(private budgetItemService: BudgetItemService) {}
 
-  async create(budget: Budget, procedureIds: number[]) {
-    const queryRunner = this.dataSource.createQueryRunner()
+  async create(budget: Budget, procedureIds: number[], tenantDataSource: DataSource) {
+    const queryRunner = tenantDataSource.createQueryRunner()
     await queryRunner.connect()
     await queryRunner.startTransaction()
     const t = queryRunner.manager
@@ -18,7 +18,7 @@ export class BudgetService {
     try {
       await t.save(budget)
       const budgetItems = BudgetItemService.createEntities({ budgetId: budget.id, procedureIds })
-      await this.budgetItemService.create(budgetItems, t)
+      await this.budgetItemService.create(budgetItems, tenantDataSource, t)
       budget.budgetItems = budgetItems
 
       await queryRunner.commitTransaction()
