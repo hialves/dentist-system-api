@@ -3,15 +3,18 @@ import { EmployeeClinicService } from './employee-clinic.service'
 import { UpdateEmployeeClinicDto } from './dto/update-employee-clinic.dto'
 import { RequiredPermission } from '../../../decorators/permission.decorator'
 import { permissions } from '../../../config/permissions'
+import { TenantSchema } from '../../../decorators/tenant-schema.decorator'
+import { TenantService } from '../../public/tenant/tenant.service'
 
 @Controller('employee-clinic')
 export class EmployeeClinicController {
-  constructor(private readonly service: EmployeeClinicService) {}
+  constructor(private readonly service: EmployeeClinicService, private tenantService: TenantService) {}
 
   @RequiredPermission(permissions.employeeClinic.Read)
   @Get()
-  findAll() {
-    return this.service.findAll()
+  async findAll(@TenantSchema() tenantSchema: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
+    return this.service.findAll(tenantDataSource)
   }
 
   @RequiredPermission(permissions.employeeClinic.Read)

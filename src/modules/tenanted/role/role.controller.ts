@@ -19,8 +19,9 @@ export class RoleController {
 
   @RequiredPermission(permissions.role.Read)
   @Get()
-  findAll() {
-    return this.service.findAll()
+  async findAll(@TenantSchema() tenantSchema: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
+    return this.service.findAll(tenantDataSource)
   }
 
   @RequiredPermission(permissions.role.Read)

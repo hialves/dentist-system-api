@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common'
+import { DataSource } from 'typeorm'
 import { CreateRolePermissionDto } from './dto/create-role_permission.dto'
 import { UpdateRolePermissionDto } from './dto/update-role_permission.dto'
+import { RolePermission } from './entities/role_permission.entity'
 
 @Injectable()
 export class RolePermissionService {
@@ -8,8 +10,9 @@ export class RolePermissionService {
     return 'This action adds a new rolePermission'
   }
 
-  findAll() {
-    return `This action returns all rolePermission`
+  findAll(tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(RolePermission)
+    return repository.find()
   }
 
   findOne(id: number) {

@@ -57,8 +57,9 @@ export class ClinicService {
     return clinic
   }
 
-  findAll() {
-    return `This action returns all clinic`
+  findAll(tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(Clinic)
+    return repository.find()
   }
 
   findOne(id: number, tenantDataSource: DataSource) {

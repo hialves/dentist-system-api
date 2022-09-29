@@ -25,7 +25,7 @@ export class BudgetItemService {
     })
   }
 
-  remove(id: number) {
+  remove(id: number, tenantDataSource: DataSource) {
     return `This action removes a #${id} budgetItem`
   }
 }

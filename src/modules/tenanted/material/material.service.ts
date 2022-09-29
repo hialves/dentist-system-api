@@ -21,8 +21,9 @@ export class MaterialService {
     return material
   }
 
-  findAll() {
-    return `This action returns all material`
+  findAll(tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(Material)
+    return repository.find()
   }
 
   findOne(id: number) {

@@ -55,7 +55,7 @@ export class TenantService extends BaseService {
   }
 
   findAll() {
-    return `This action returns all tenant`
+    return this.repo.find()
   }
 
   findOne(id: number) {

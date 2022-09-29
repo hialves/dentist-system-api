@@ -21,8 +21,9 @@ export class MaterialCategoryController {
 
   @RequiredPermission(permissions.materialCategory.Read)
   @Get()
-  findAll() {
-    return this.service.findAll()
+  async findAll(@TenantSchema() tenantSchema: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
+    return this.service.findAll(tenantDataSource)
   }
 
   @RequiredPermission(permissions.materialCategory.Read)

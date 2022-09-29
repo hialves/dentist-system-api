@@ -13,8 +13,9 @@ export class RoleService {
     return 'This action adds a new role'
   }
 
-  findAll() {
-    return `This action returns all role`
+  findAll(tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(Role)
+    return repository.find()
   }
 
   findOne(id: number, tenantDataSource: DataSource) {

@@ -13,17 +13,17 @@ export class ClientController {
 
   @RequiredPermission(permissions.client.Create)
   @Post()
-  async create(@Body() dto: CreateClientDto) {
+  async create(@Body() dto: CreateClientDto, @TenantSchema() tenantSchema: string) {
     const client = ClientService.createEntity(dto)
-    // TODO: fix ''
-    const tenantDataSource = await this.tenantService.getTenantConnectionByExternalRef('')
+    const tenantDataSource = await this.tenantService.getTenantConnectionByExternalRef(tenantSchema)
     return this.service.create(client, tenantDataSource)
   }
 
   @RequiredPermission(permissions.client.Read)
   @Get()
-  findAll(@Query() query: any) {
-    // return this.service.findAll(query)
+  async findAll(@TenantSchema() tenantSchema: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
+    return this.service.findAll(tenantDataSource)
   }
 
   @RequiredPermission(permissions.client.Read)

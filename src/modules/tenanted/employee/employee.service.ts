@@ -36,6 +36,11 @@ export class EmployeeService extends BaseService {
     return employee
   }
 
+  findAll(tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(Employee)
+    return repository.find()
+  }
+
   findOne(id: number, tenantDataSource: DataSource) {
     return tenantDataSource.getRepository(Employee).findOne({ where: { id } })
   }

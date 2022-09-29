@@ -21,8 +21,9 @@ export class ClientProcedureController {
 
   @RequiredPermission(permissions.clientProcedure.Read)
   @Get()
-  findAll() {
-    return this.service.findAll()
+  async findAll(@TenantSchema() tenantSchema: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
+    return this.service.findAll(tenantDataSource)
   }
 
   @RequiredPermission(permissions.clientProcedure.Read)

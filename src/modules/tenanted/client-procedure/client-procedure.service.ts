@@ -31,8 +31,9 @@ export class ClientProcedureService {
     })
   }
 
-  findAll() {
-    return `This action returns all clientProcedure`
+  findAll(tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(ClientProcedure)
+    return repository.find()
   }
 
   findOne(id: number) {

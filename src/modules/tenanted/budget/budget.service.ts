@@ -43,19 +43,20 @@ export class BudgetService {
     return budget
   }
 
-  findAll() {
-    return `This action returns all budget`
+  findAll(tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(Budget)
+    return repository.find()
   }
 
-  findOne(id: number) {
+  findOne(id: number, tenantDataSource: DataSource) {
     return `This action returns a #${id} budget`
   }
 
-  update(id: number, dto: UpdateBudgetDto) {
+  update(id: number, dto: UpdateBudgetDto, tenantDataSource: DataSource) {
     return `This action updates a #${id} budget`
   }
 
-  remove(id: number) {
+  remove(id: number, tenantDataSource: DataSource) {
     return `This action removes a #${id} budget`
   }
 }

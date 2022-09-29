@@ -4,10 +4,12 @@ import { CreatePermissionDto } from './dto/create-permission.dto'
 import { UpdatePermissionDto } from './dto/update-permission.dto'
 import { permissions } from '../../../config/permissions'
 import { RequiredPermission } from '../../../decorators/permission.decorator'
+import { TenantSchema } from '../../../decorators/tenant-schema.decorator'
+import { TenantService } from '../../public/tenant/tenant.service'
 
 @Controller('permission')
 export class PermissionController {
-  constructor(private readonly service: PermissionService) {}
+  constructor(private readonly service: PermissionService, private tenantService: TenantService) {}
 
   @RequiredPermission(permissions.permission.Create)
   @Post()
@@ -17,8 +19,9 @@ export class PermissionController {
 
   @RequiredPermission(permissions.permission.Read)
   @Get()
-  findAll() {
-    return this.service.findAll()
+  async findAll(@TenantSchema() tenantSchema: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
+    return this.service.findAll(tenantDataSource)
   }
 
   @RequiredPermission(permissions.permission.Read)

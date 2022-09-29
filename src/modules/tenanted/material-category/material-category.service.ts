@@ -21,8 +21,9 @@ export class MaterialCategoryService {
     })
   }
 
-  findAll() {
-    return `This action returns all materialCategory`
+  findAll(tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(MaterialCategory)
+    return repository.find()
   }
 
   findOne(id: number) {

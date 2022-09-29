@@ -6,6 +6,7 @@ import { Public } from '../../../decorators/public.decorator'
 import { RequiredPermission } from '../../../decorators/permission.decorator'
 import { permissions } from '../../../config/permissions'
 import { TenantService } from '../../public/tenant/tenant.service'
+import { TenantSchema } from '../../../decorators/tenant-schema.decorator'
 
 @Controller('employee')
 export class EmployeeController {
@@ -22,8 +23,9 @@ export class EmployeeController {
 
   @RequiredPermission(permissions.employee.Read)
   @Get()
-  findAll(@Query() query: any) {
-    // return this.service.findAll(query)
+  async findAll(@TenantSchema() tenantSchema: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
+    return this.service.findAll(tenantDataSource)
   }
 
   @RequiredPermission(permissions.employee.Read)

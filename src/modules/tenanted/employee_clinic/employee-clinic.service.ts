@@ -34,8 +34,9 @@ export class EmployeeClinicService extends BaseService {
     return employeeClinic
   }
 
-  findAll() {
-    return `This action returns all employeeClinic`
+  findAll(tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(EmployeeClinic)
+    return repository.find()
   }
 
   findOne(id: number) {

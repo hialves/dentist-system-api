@@ -20,8 +20,9 @@ export class ProcedureService {
     return procedure
   }
 
-  findAll() {
-    return `This action returns all procedure`
+  findAll(tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(Procedure)
+    return repository.find()
   }
 
   findOne(id: number) {

@@ -22,25 +22,29 @@ export class BudgetController {
 
   @RequiredPermission(permissions.budget.Read)
   @Get()
-  findAll() {
-    return this.service.findAll()
+  async findAll(@TenantSchema() tenantSchema: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
+    return this.service.findAll(tenantDataSource)
   }
 
   @RequiredPermission(permissions.budget.Read)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.service.findOne(+id)
+  async findOne(@Param('id') id: string, @TenantSchema() tenantSchema: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
+    return this.service.findOne(+id, tenantDataSource)
   }
 
   @RequiredPermission(permissions.budget.Update)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() dto: UpdateBudgetDto) {
-    return this.service.update(+id, dto)
+  async update(@Param('id') id: string, @Body() dto: UpdateBudgetDto, @TenantSchema() tenantSchema: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
+    return this.service.update(+id, dto, tenantDataSource)
   }
 
   @RequiredPermission(permissions.budget.Delete)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.service.remove(+id)
+  async remove(@Param('id') id: string, @TenantSchema() tenantSchema: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
+    return this.service.remove(+id, tenantDataSource)
   }
 }
