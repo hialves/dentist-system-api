@@ -15,15 +15,17 @@ export class ExamsService {
     return repository.find()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} exam`
+  findOne(id: number, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(Exam)
+    return repository.findOneBy({ id })
   }
 
   update(id: number, updateExamDto: UpdateExamDto) {
     return `This action updates a #${id} exam`
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} exam`
+  remove(id: number, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(Exam)
+    return repository.delete({ id })
   }
 }

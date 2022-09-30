@@ -26,15 +26,17 @@ export class MaterialCategoryService {
     return repository.find()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} materialCategory`
+  findOne(id: number, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(MaterialCategory)
+    return repository.findOneBy({ id })
   }
 
   update(id: number, updateMaterialCategoryDto: UpdateMaterialCategoryDto) {
     return `This action updates a #${id} materialCategory`
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} materialCategory`
+  remove(id: number, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(MaterialCategory)
+    return repository.delete({ id })
   }
 }

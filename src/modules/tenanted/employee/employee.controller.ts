@@ -30,9 +30,8 @@ export class EmployeeController {
 
   @RequiredPermission(permissions.employee.Read)
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    // TODO: fix ''
-    const tenantDataSource = await this.tenantService.getTenantConnectionByExternalRef('')
+  async findOne(@Param('id') id: string, @TenantSchema() tenantSchema: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
     return this.service.findOne(+id, tenantDataSource)
   }
 
@@ -44,7 +43,8 @@ export class EmployeeController {
 
   @RequiredPermission(permissions.employee.Delete)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    // return this.service.remove(+id)
+  async remove(@Param('id') id: string, @TenantSchema() tenantSchema: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
+    return this.service.remove(+id, tenantDataSource)
   }
 }

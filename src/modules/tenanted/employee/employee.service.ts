@@ -42,7 +42,8 @@ export class EmployeeService extends BaseService {
   }
 
   findOne(id: number, tenantDataSource: DataSource) {
-    return tenantDataSource.getRepository(Employee).findOne({ where: { id } })
+    const repository = tenantDataSource.getRepository(Employee)
+    return repository.findOneBy({ id })
   }
 
   getCredentials(email: string, tenantDataSource: DataSource) {
@@ -50,5 +51,10 @@ export class EmployeeService extends BaseService {
       where: { email },
       select: ['id', 'email', 'password'],
     })
+  }
+
+  remove(id: number, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(Employee)
+    return repository.delete({ id })
   }
 }

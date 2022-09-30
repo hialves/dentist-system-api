@@ -49,7 +49,8 @@ export class BudgetService {
   }
 
   findOne(id: number, tenantDataSource: DataSource) {
-    return `This action returns a #${id} budget`
+    const repository = tenantDataSource.getRepository(Budget)
+    return repository.findOneBy({ id })
   }
 
   update(id: number, dto: UpdateBudgetDto, tenantDataSource: DataSource) {
@@ -57,6 +58,7 @@ export class BudgetService {
   }
 
   remove(id: number, tenantDataSource: DataSource) {
-    return `This action removes a #${id} budget`
+    const repository = tenantDataSource.getRepository(Budget)
+    return repository.delete({ id })
   }
 }

@@ -25,15 +25,17 @@ export class ProcedureService {
     return repository.find()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} procedure`
+  findOne(id: number, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(Procedure)
+    return repository.findOneBy({ id })
   }
 
   update(id: number, updateProcedureDto: UpdateProcedureDto) {
     return `This action updates a #${id} procedure`
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} procedure`
+  remove(id: number, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(Procedure)
+    return repository.delete({ id })
   }
 }

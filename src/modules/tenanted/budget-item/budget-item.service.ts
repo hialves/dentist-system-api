@@ -26,6 +26,7 @@ export class BudgetItemService {
   }
 
   remove(id: number, tenantDataSource: DataSource) {
-    return `This action removes a #${id} budgetItem`
+    const repository = tenantDataSource.getRepository(BudgetItem)
+    return repository.delete({ id })
   }
 }

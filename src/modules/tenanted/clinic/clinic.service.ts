@@ -63,15 +63,17 @@ export class ClinicService {
   }
 
   findOne(id: number, tenantDataSource: DataSource) {
-    return tenantDataSource.getRepository(Clinic).findOneBy({ id })
+    const repository = tenantDataSource.getRepository(Clinic)
+    return repository.findOneBy({ id })
   }
 
   update(id: number, updateClinicDto: UpdateClinicDto) {
     return `This action updates a #${id} clinic`
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} clinic`
+  remove(id: number, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(Clinic)
+    return repository.delete({ id })
   }
 
   getEmployeeClinics(employeeId: number, tenantDataSource: DataSource): Promise<Clinic[]> {

@@ -41,7 +41,8 @@ export class ClientController {
 
   @RequiredPermission(permissions.client.Delete)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    // return this.service.remove(+id)
+  async remove(@Param('id') id: string, @TenantSchema() tenantSchema: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
+    return this.service.remove(+id, tenantDataSource)
   }
 }

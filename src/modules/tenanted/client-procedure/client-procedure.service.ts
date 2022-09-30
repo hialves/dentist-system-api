@@ -36,15 +36,17 @@ export class ClientProcedureService {
     return repository.find()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} clientProcedure`
+  findOne(id: number, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(ClientProcedure)
+    return repository.findOneBy({ id })
   }
 
   update(id: number, dto: UpdateClientProcedureDto) {
     return `This action updates a #${id} clientProcedure`
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} clientProcedure`
+  remove(id: number, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(ClientProcedure)
+    return repository.delete({ id })
   }
 }

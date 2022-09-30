@@ -9,7 +9,8 @@ export class ProcedureHistoryService {
     return repository.find()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} procedureHistory`
+  findOne(id: number, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(ProcedureHistory)
+    return repository.findOneBy({ id })
   }
 }

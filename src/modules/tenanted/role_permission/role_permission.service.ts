@@ -15,15 +15,17 @@ export class RolePermissionService {
     return repository.find()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} rolePermission`
+  findOne(id: number, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(RolePermission)
+    return repository.findOneBy({ id })
   }
 
   update(id: number, updateRolePermissionDto: UpdateRolePermissionDto) {
     return `This action updates a #${id} rolePermission`
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} rolePermission`
+  remove(id: number, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(RolePermission)
+    return repository.delete({ id })
   }
 }

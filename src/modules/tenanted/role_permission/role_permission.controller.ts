@@ -26,8 +26,9 @@ export class RolePermissionController {
 
   @RequiredPermission(permissions.rolePermission.Read)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.service.findOne(+id)
+  async findOne(@Param('id') id: string, @TenantSchema() tenantSchema: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
+    return this.service.findOne(+id, tenantDataSource)
   }
 
   @RequiredPermission(permissions.rolePermission.Update)
@@ -38,7 +39,8 @@ export class RolePermissionController {
 
   @RequiredPermission(permissions.rolePermission.Delete)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.service.remove(+id)
+  async remove(@Param('id') id: string, @TenantSchema() tenantSchema: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
+    return this.service.remove(+id, tenantDataSource)
   }
 }

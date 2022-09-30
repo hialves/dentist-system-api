@@ -44,7 +44,13 @@ export class ClientService extends BaseService {
     return repository.find()
   }
 
-  async findOne(id: number, tenantDataSource: DataSource) {
-    return tenantDataSource.getRepository(Client).findOne({ where: { id } })
+  findOne(id: number, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(Client)
+    return repository.findOneBy({ id })
+  }
+
+  remove(id: number, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(Client)
+    return repository.delete({ id })
   }
 }

@@ -14,10 +14,13 @@ export class EmployeeClinicService extends BaseService {
   }
 
   async create(employeeClinic: EmployeeClinic, tenantDataSource: DataSource, t?: EntityManager) {
-    // await this.validateIfExists({
-    //   where: { employeeId: employeeClinic.employeeId, clinicId: employeeClinic.clinicId },
-    //   errorMessage: 'Já existe um registro deste colaborador com a clínica',
-    // })
+    await this.validateIfExists(
+      {
+        where: { employeeId: employeeClinic.employeeId, clinicId: employeeClinic.clinicId },
+        errorMessage: 'Já existe um registro deste colaborador com a clínica',
+      },
+      tenantDataSource.getRepository(EmployeeClinic),
+    )
 
     return t ? t.save(employeeClinic) : await tenantDataSource.getRepository(EmployeeClinic).save(employeeClinic)
   }
@@ -39,16 +42,18 @@ export class EmployeeClinicService extends BaseService {
     return repository.find()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} employeeClinic`
+  findOne(id: number, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(EmployeeClinic)
+    return repository.findOneBy({ id })
   }
 
   update(id: number, dto: UpdateEmployeeClinicDto) {
     return `This action updates a #${id} employeeClinic`
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} employeeClinic`
+  remove(id: number, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(EmployeeClinic)
+    return repository.delete({ id })
   }
 
   findByEmployeeAndClinic(

@@ -18,7 +18,8 @@ export class ProcedureHistoryController {
 
   @RequiredPermission(permissions.procedureHistory.Read)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.service.findOne(+id)
+  async findOne(@Param('id') id: string, @TenantSchema() tenantSchema: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
+    return this.service.findOne(+id, tenantDataSource)
   }
 }

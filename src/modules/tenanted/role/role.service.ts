@@ -19,7 +19,8 @@ export class RoleService {
   }
 
   findOne(id: number, tenantDataSource: DataSource) {
-    return tenantDataSource.getRepository(Role).findOneBy({ id })
+    const repository = tenantDataSource.getRepository(Role)
+    return repository.findOneBy({ id })
   }
 
   findOneBySlug(slug: RoleSlugEnum, tenantDataSource: DataSource) {
@@ -30,8 +31,9 @@ export class RoleService {
     return `This action updates a #${id} role`
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} role`
+  remove(id: number, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(Role)
+    return repository.delete({ id })
   }
 
   async getRolePermissions(roleId: number, tenantDataSource: DataSource): Promise<string[]> {
