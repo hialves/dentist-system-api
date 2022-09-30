@@ -73,7 +73,7 @@ export class ClinicService {
 
   remove(id: number, tenantDataSource: DataSource) {
     const repository = tenantDataSource.getRepository(Clinic)
-    return repository.delete({ id })
+    return repository.softDelete({ id })
   }
 
   getEmployeeClinics(employeeId: number, tenantDataSource: DataSource): Promise<Clinic[]> {

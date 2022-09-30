@@ -34,16 +34,19 @@ export class RoleService {
 
   remove(id: number, tenantDataSource: DataSource) {
     const repository = tenantDataSource.getRepository(Role)
-    return repository.delete({ id })
+    return repository.softDelete({ id })
   }
 
   async getRolePermissions(roleId: number, tenantDataSource: DataSource): Promise<string[]> {
+    const oneSec = 1000
+    const seconds = oneSec * 30
+
     const role = await tenantDataSource.getRepository(Role).findOne({
       where: { id: roleId },
       relations: ['rolePermissions', 'rolePermissions.permission'],
       cache: {
         id: 'getRolePermissions',
-        milliseconds: 1000 * 30,
+        milliseconds: seconds,
       },
     })
 

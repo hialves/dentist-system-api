@@ -1,4 +1,4 @@
-import { Column } from 'typeorm'
+import { Column, DeleteDateColumn } from 'typeorm'
 import { BaseEntity } from '../../../../common/entity'
 
 export class ClinicDomain extends BaseEntity {
@@ -13,4 +13,7 @@ export class ClinicDomain extends BaseEntity {
 
   @Column({ nullable: true })
   icon?: string
+
+  @DeleteDateColumn()
+  deletedAt: string
 }

@@ -1,4 +1,4 @@
-import { Column } from 'typeorm'
+import { Column, DeleteDateColumn } from 'typeorm'
 import { BaseEntity } from '../../../../common/entity'
 
 export class ProcedureDomain extends BaseEntity {
@@ -8,4 +8,7 @@ export class ProcedureDomain extends BaseEntity {
   // numeric(7,2)
   @Column('numeric', { nullable: false })
   value: number
+
+  @DeleteDateColumn()
+  deletedAt: string
 }

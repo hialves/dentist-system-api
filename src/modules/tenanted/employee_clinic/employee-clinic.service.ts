@@ -54,7 +54,7 @@ export class EmployeeClinicService extends BaseService {
 
   remove(id: number, tenantDataSource: DataSource) {
     const repository = tenantDataSource.getRepository(EmployeeClinic)
-    return repository.delete({ id })
+    return repository.update({ id }, { active: false })
   }
 
   findByEmployeeAndClinic(

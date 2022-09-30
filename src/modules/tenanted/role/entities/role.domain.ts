@@ -1,4 +1,4 @@
-import { Column } from 'typeorm'
+import { Column, DeleteDateColumn } from 'typeorm'
 import { BaseEntity } from '../../../../common/entity'
 
 export enum RoleSlugEnum {
@@ -13,4 +13,7 @@ export class RoleDomain extends BaseEntity {
 
   @Column({ type: 'enum', enum: RoleSlugEnum, enumName: 'ROLE_SLUG_ENUM', nullable: true, unique: true })
   slug?: RoleSlugEnum
+
+  @DeleteDateColumn()
+  deletedAt: string
 }

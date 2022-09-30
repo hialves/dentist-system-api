@@ -1,4 +1,4 @@
-import { Column } from 'typeorm'
+import { Column, DeleteDateColumn } from 'typeorm'
 import { BaseEntity } from '../../../../common/entity'
 
 export class EmployeeDomain extends BaseEntity {
@@ -25,4 +25,7 @@ export class EmployeeDomain extends BaseEntity {
 
   @Column('timestamp', { nullable: true })
   recoverPasswordTokenExpire?: string
+
+  @DeleteDateColumn()
+  deletedAt: string
 }

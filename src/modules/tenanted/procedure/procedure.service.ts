@@ -37,6 +37,6 @@ export class ProcedureService {
 
   remove(id: number, tenantDataSource: DataSource) {
     const repository = tenantDataSource.getRepository(Procedure)
-    return repository.delete({ id })
+    return repository.softDelete({ id })
   }
 }

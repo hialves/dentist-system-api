@@ -61,6 +61,6 @@ export class EmployeeService extends BaseService {
 
   remove(id: number, tenantDataSource: DataSource) {
     const repository = tenantDataSource.getRepository(Employee)
-    return repository.delete({ id })
+    return repository.softDelete({ id })
   }
 }
