@@ -67,7 +67,7 @@ export class TenantService extends BaseService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} tenant`
+    return this.repo.delete(id)
   }
 
   static createUniqueSchemaName(tenant: Tenant) {
