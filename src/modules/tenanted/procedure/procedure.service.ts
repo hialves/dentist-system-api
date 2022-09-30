@@ -30,8 +30,9 @@ export class ProcedureService {
     return repository.findOneBy({ id })
   }
 
-  update(id: number, updateProcedureDto: UpdateProcedureDto) {
-    return `This action updates a #${id} procedure`
+  async update(id: number, dto: UpdateProcedureDto, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(Procedure)
+    return repository.update({ id }, dto)
   }
 
   remove(id: number, tenantDataSource: DataSource) {

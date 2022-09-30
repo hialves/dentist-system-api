@@ -27,8 +27,9 @@ export class RoleService {
     return tenantDataSource.getRepository(Role).findOneBy({ slug })
   }
 
-  update(id: number, updateRoleDto: UpdateRoleDto) {
-    return `This action updates a #${id} role`
+  async update(id: number, dto: UpdateRoleDto, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(Role)
+    return repository.update({ id }, dto)
   }
 
   remove(id: number, tenantDataSource: DataSource) {

@@ -31,8 +31,9 @@ export class MaterialCategoryService {
     return repository.findOneBy({ id })
   }
 
-  update(id: number, updateMaterialCategoryDto: UpdateMaterialCategoryDto) {
-    return `This action updates a #${id} materialCategory`
+  async update(id: number, dto: UpdateMaterialCategoryDto, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(MaterialCategory)
+    return repository.update({ id }, { name: dto.names[0] })
   }
 
   remove(id: number, tenantDataSource: DataSource) {

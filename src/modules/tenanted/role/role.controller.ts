@@ -33,8 +33,9 @@ export class RoleController {
 
   @RequiredPermission(permissions.role.Update)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() dto: UpdateRoleDto) {
-    return this.service.update(+id, dto)
+  async update(@Param('id') id: string, @Body() dto: UpdateRoleDto, @TenantSchema() tenantSchema: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
+    return this.service.update(+id, dto, tenantDataSource)
   }
 
   @RequiredPermission(permissions.role.Delete)

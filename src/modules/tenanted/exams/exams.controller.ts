@@ -33,8 +33,9 @@ export class ExamsController {
 
   @RequiredPermission(permissions.exams.Update)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateExamDto: UpdateExamDto) {
-    return this.service.update(+id, updateExamDto)
+  async update(@Param('id') id: string, @Body() dto: UpdateExamDto, @TenantSchema() tenantSchema: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
+    return this.service.update(+id, dto, tenantDataSource)
   }
 
   @RequiredPermission(permissions.exams.Delete)

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { DataSource } from 'typeorm'
 import { BaseService } from '../../../common/service.repository'
 import { CreateClientDto } from './dto/create-client.dto'
+import { UpdateClientDto } from './dto/update-client.dto'
 import { Client } from './entities/client.entity'
 
 @Injectable()
@@ -47,6 +48,11 @@ export class ClientService extends BaseService {
   findOne(id: number, tenantDataSource: DataSource) {
     const repository = tenantDataSource.getRepository(Client)
     return repository.findOneBy({ id })
+  }
+
+  async update(id: number, dto: UpdateClientDto, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(Client)
+    return repository.update({ id }, dto)
   }
 
   remove(id: number, tenantDataSource: DataSource) {

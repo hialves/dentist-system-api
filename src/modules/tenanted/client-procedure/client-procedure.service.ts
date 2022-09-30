@@ -41,8 +41,9 @@ export class ClientProcedureService {
     return repository.findOneBy({ id })
   }
 
-  update(id: number, dto: UpdateClientProcedureDto) {
-    return `This action updates a #${id} clientProcedure`
+  async update(id: number, dto: UpdateClientProcedureDto, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(ClientProcedure)
+    return repository.update({ id }, dto)
   }
 
   remove(id: number, tenantDataSource: DataSource) {

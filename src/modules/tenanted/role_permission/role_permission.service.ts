@@ -20,8 +20,9 @@ export class RolePermissionService {
     return repository.findOneBy({ id })
   }
 
-  update(id: number, updateRolePermissionDto: UpdateRolePermissionDto) {
-    return `This action updates a #${id} rolePermission`
+  async update(id: number, dto: UpdateRolePermissionDto, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(RolePermission)
+    return repository.update({ id }, dto)
   }
 
   remove(id: number, tenantDataSource: DataSource) {

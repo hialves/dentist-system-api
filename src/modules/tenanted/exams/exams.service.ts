@@ -20,8 +20,9 @@ export class ExamsService {
     return repository.findOneBy({ id })
   }
 
-  update(id: number, updateExamDto: UpdateExamDto) {
-    return `This action updates a #${id} exam`
+  async update(id: number, dto: UpdateExamDto, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(Exam)
+    return repository.update({ id }, dto)
   }
 
   remove(id: number, tenantDataSource: DataSource) {

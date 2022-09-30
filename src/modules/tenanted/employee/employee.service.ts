@@ -4,6 +4,7 @@ import { BaseService } from '../../../common/service.repository'
 import { CreateEmployeeDto } from './dto/create-employee.dto'
 import { Employee } from './entities/employee.entity'
 import { hashPassword } from '../../../utils/hash-password'
+import { UpdateEmployeeDto } from './dto/update-employee.dto'
 
 @Injectable()
 export class EmployeeService extends BaseService {
@@ -51,6 +52,11 @@ export class EmployeeService extends BaseService {
       where: { email },
       select: ['id', 'email', 'password'],
     })
+  }
+
+  async update(id: number, dto: UpdateEmployeeDto, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(Employee)
+    return repository.update({ id }, dto)
   }
 
   remove(id: number, tenantDataSource: DataSource) {

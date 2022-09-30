@@ -35,8 +35,9 @@ export class MaterialController {
 
   @RequiredPermission(permissions.material.Update)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() dto: UpdateMaterialDto) {
-    return this.service.update(+id, dto)
+  async update(@Param('id') id: string, @Body() dto: UpdateMaterialDto, @TenantSchema() tenantSchema: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
+    return this.service.update(+id, dto, tenantDataSource)
   }
 
   @RequiredPermission(permissions.material.Delete)

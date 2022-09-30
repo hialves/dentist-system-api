@@ -53,8 +53,9 @@ export class BudgetService {
     return repository.findOneBy({ id })
   }
 
-  update(id: number, dto: UpdateBudgetDto, tenantDataSource: DataSource) {
-    return `This action updates a #${id} budget`
+  async update(id: number, dto: UpdateBudgetDto, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(Budget)
+    return repository.update({ id }, dto)
   }
 
   remove(id: number, tenantDataSource: DataSource) {

@@ -66,8 +66,9 @@ export class ClinicService {
     return repository.findOneBy({ id })
   }
 
-  update(id: number, updateClinicDto: UpdateClinicDto) {
-    return `This action updates a #${id} clinic`
+  async update(id: number, dto: UpdateClinicDto, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(Clinic)
+    return repository.update({ id }, dto)
   }
 
   remove(id: number, tenantDataSource: DataSource) {

@@ -35,8 +35,9 @@ export class ProcedureController {
 
   @RequiredPermission(permissions.procedure.Update)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() dto: UpdateProcedureDto) {
-    return this.service.update(+id, dto)
+  async update(@Param('id') id: string, @Body() dto: UpdateProcedureDto, @TenantSchema() tenantSchema: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
+    return this.service.update(+id, dto, tenantDataSource)
   }
 
   @RequiredPermission(permissions.procedure.Delete)

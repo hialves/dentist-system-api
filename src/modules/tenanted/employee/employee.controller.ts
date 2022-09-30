@@ -36,8 +36,9 @@ export class EmployeeController {
 
   @RequiredPermission(permissions.employee.Update)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() dto: UpdateEmployeeDto) {
-    // return this.service.update(+id, dto)
+  async update(@Param('id') id: string, @Body() dto: UpdateEmployeeDto, @TenantSchema() tenantSchema: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
+    return this.service.update(+id, dto, tenantDataSource)
   }
 
   @RequiredPermission(permissions.employee.Delete)

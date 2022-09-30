@@ -47,8 +47,9 @@ export class EmployeeClinicService extends BaseService {
     return repository.findOneBy({ id })
   }
 
-  update(id: number, dto: UpdateEmployeeClinicDto) {
-    return `This action updates a #${id} employeeClinic`
+  async update(id: number, dto: UpdateEmployeeClinicDto, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(EmployeeClinic)
+    return repository.update({ id }, dto)
   }
 
   remove(id: number, tenantDataSource: DataSource) {
