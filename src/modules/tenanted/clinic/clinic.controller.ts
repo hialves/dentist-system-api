@@ -14,9 +14,9 @@ export class ClinicController {
   constructor(private readonly service: ClinicService, private tenantService: TenantService) {}
 
   @Public()
-  @Post('first-clinic/:tenant')
-  async createFirstClinic(@Body() dto: CreateFirstClinicDto, @Param('tenant') tenant: string) {
-    const tenantDataSource = await this.tenantService.getTenantConnectionByExternalRef(tenant)
+  @Post('first-clinic/:schemaExternalRef')
+  async createFirstClinic(@Body() dto: CreateFirstClinicDto, @Param('schemaExternalRef') schemaExternalRef: string) {
+    const tenantDataSource = await this.tenantService.getTenantConnectionByExternalRef(schemaExternalRef)
     return this.service.createFirstClinic(dto, tenantDataSource)
   }
 

@@ -13,11 +13,10 @@ export class EmployeeController {
   constructor(private readonly service: EmployeeService, private tenantService: TenantService) {}
 
   @Public()
-  @Post(':tenant')
-  async create(@Body() dto: CreateEmployeeDto, @Param(':tenant') tenant: string) {
+  @Post(':schemaExternalRef')
+  async create(@Body() dto: CreateEmployeeDto, @Param(':schemaExternalRef') schemaExternalRef: string) {
     const employee = await EmployeeService.createEntity(dto)
-    // TODO: fix ''
-    const tenantDataSource = await this.tenantService.getTenantConnectionByExternalRef('')
+    const tenantDataSource = await this.tenantService.getTenantConnectionByExternalRef(schemaExternalRef)
     return this.service.create(employee, tenantDataSource)
   }
 

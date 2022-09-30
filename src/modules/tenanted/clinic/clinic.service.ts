@@ -27,7 +27,6 @@ export class ClinicService {
     const t = queryRunner.manager
 
     try {
-      // TODO: fix ''
       await this.employeeService.create(employee, tenantDataSource, t)
       await this.create(clinic, tenantDataSource, t)
 

@@ -19,8 +19,8 @@ export class EmployeeStrategy extends PassportStrategy(Strategy, 'employee') {
 
   async validate(req: Request): Promise<any> {
     const { email, password } = req.body
-    const { tenant } = req.params
-    const tenantDataSource = await this.tenantService.getTenantConnectionByExternalRef(tenant)
+    const { schemaExternalRef } = req.params
+    const tenantDataSource = await this.tenantService.getTenantConnectionByExternalRef(schemaExternalRef)
     const dataSourceOptions: any = tenantDataSource.options
     const tenantSchema: string = dataSourceOptions.schema
     const employee = await this.authService.validateEntity(email, password, this.employeeService, tenantDataSource)
