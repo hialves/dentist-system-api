@@ -1,16 +1,11 @@
 import { Injectable } from '@nestjs/common'
 import { DataSource } from 'typeorm'
+import { BaseService } from '../../../common/service.repository'
 import { ProcedureHistory } from './entities/procedure-history.entity'
 
 @Injectable()
-export class ProcedureHistoryService {
-  findAll(tenantDataSource: DataSource) {
-    const repository = tenantDataSource.getRepository(ProcedureHistory)
-    return repository.find()
-  }
-
-  findOne(id: number, tenantDataSource: DataSource) {
-    const repository = tenantDataSource.getRepository(ProcedureHistory)
-    return repository.findOneBy({ id })
+export class ProcedureHistoryService extends BaseService {
+  constructor() {
+    super(ProcedureHistory)
   }
 }

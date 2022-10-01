@@ -1,12 +1,15 @@
 import { Injectable } from '@nestjs/common'
 import { DataSource } from 'typeorm'
+import { BaseService } from '../../../common/service.repository'
 import { CreateProcedureDto } from './dto/create-procedure.dto'
 import { UpdateProcedureDto } from './dto/update-procedure.dto'
 import { Procedure } from './entities/procedure.entity'
 
 @Injectable()
-export class ProcedureService {
-  constructor() {}
+export class ProcedureService extends BaseService {
+  constructor() {
+    super(Procedure)
+  }
 
   create(procedure: Procedure, tenantDataSource: DataSource) {
     return tenantDataSource.getRepository(Procedure).save(procedure)
@@ -18,16 +21,6 @@ export class ProcedureService {
     procedure.value = dto.value
 
     return procedure
-  }
-
-  findAll(tenantDataSource: DataSource) {
-    const repository = tenantDataSource.getRepository(Procedure)
-    return repository.find()
-  }
-
-  findOne(id: number, tenantDataSource: DataSource) {
-    const repository = tenantDataSource.getRepository(Procedure)
-    return repository.findOneBy({ id })
   }
 
   async update(id: number, dto: UpdateProcedureDto, tenantDataSource: DataSource) {

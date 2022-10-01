@@ -9,7 +9,7 @@ import { UpdateEmployeeDto } from './dto/update-employee.dto'
 @Injectable()
 export class EmployeeService extends BaseService {
   constructor() {
-    super()
+    super(Employee)
   }
 
   async create(employee: Employee, tenantDataSource: DataSource, t?: EntityManager) {
@@ -35,16 +35,6 @@ export class EmployeeService extends BaseService {
     employee.cro = dto.cro
 
     return employee
-  }
-
-  findAll(tenantDataSource: DataSource) {
-    const repository = tenantDataSource.getRepository(Employee)
-    return repository.find()
-  }
-
-  findOne(id: number, tenantDataSource: DataSource) {
-    const repository = tenantDataSource.getRepository(Employee)
-    return repository.findOneBy({ id })
   }
 
   getCredentials(email: string, tenantDataSource: DataSource) {

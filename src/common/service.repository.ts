@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
-import { DeepPartial, DeleteResult, Repository } from 'typeorm'
+import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type'
+import { DataSource, DeepPartial, DeleteResult, Repository } from 'typeorm'
 import { BaseEntity } from './entity'
 
 interface IValidateObject {
@@ -11,6 +12,8 @@ interface IValidateObject {
 
 @Injectable()
 export class BaseService {
+  constructor(private entity: EntityClassOrSchema) {}
+
   async validateIfExists(
     validateObjects: IValidateObject[] | IValidateObject,
     repository: Repository<any>,
@@ -33,5 +36,15 @@ export class BaseService {
     })
     if (entity) return errorMessage
     return false
+  }
+
+  findAll(tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(this.entity)
+    return repository.find()
+  }
+
+  findOne(id: number, tenantDataSource: DataSource) {
+    const repository = tenantDataSource.getRepository(this.entity)
+    return repository.findOneBy({ id })
   }
 }

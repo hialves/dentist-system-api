@@ -10,7 +10,7 @@ import { EmployeeClinic } from './entities/employee-clinic.entity'
 @Injectable()
 export class EmployeeClinicService extends BaseService {
   constructor() {
-    super()
+    super(EmployeeClinic)
   }
 
   async create(employeeClinic: EmployeeClinic, tenantDataSource: DataSource, t?: EntityManager) {
@@ -35,16 +35,6 @@ export class EmployeeClinicService extends BaseService {
     employeeClinic.roleId = role.id
 
     return employeeClinic
-  }
-
-  findAll(tenantDataSource: DataSource) {
-    const repository = tenantDataSource.getRepository(EmployeeClinic)
-    return repository.find()
-  }
-
-  findOne(id: number, tenantDataSource: DataSource) {
-    const repository = tenantDataSource.getRepository(EmployeeClinic)
-    return repository.findOneBy({ id })
   }
 
   async update(id: number, dto: UpdateEmployeeClinicDto, tenantDataSource: DataSource) {

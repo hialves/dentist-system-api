@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { DataSource, EntityManager } from 'typeorm'
+import { BaseService } from '../../../common/service.repository'
 import { EmployeeService } from '../employee/employee.service'
 import { EmployeeClinicService } from '../employee_clinic/employee-clinic.service'
 import { RoleSlugEnum } from '../role/entities/role.domain'
@@ -9,12 +10,14 @@ import { UpdateClinicDto } from './dto/update-clinic.dto'
 import { Clinic } from './entities/clinic.entity'
 
 @Injectable()
-export class ClinicService {
+export class ClinicService extends BaseService {
   constructor(
     private employeeService: EmployeeService,
     private employeeClinicService: EmployeeClinicService,
     private roleService: RoleService,
-  ) {}
+  ) {
+    super(Clinic)
+  }
 
   async createFirstClinic(dto: CreateFirstClinicDto, tenantDataSource: DataSource) {
     const employee = await EmployeeService.createEntity(dto.employee)
@@ -54,16 +57,6 @@ export class ClinicService {
     clinic.address = dto.address
 
     return clinic
-  }
-
-  findAll(tenantDataSource: DataSource) {
-    const repository = tenantDataSource.getRepository(Clinic)
-    return repository.find()
-  }
-
-  findOne(id: number, tenantDataSource: DataSource) {
-    const repository = tenantDataSource.getRepository(Clinic)
-    return repository.findOneBy({ id })
   }
 
   async update(id: number, dto: UpdateClinicDto, tenantDataSource: DataSource) {

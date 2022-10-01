@@ -16,7 +16,7 @@ export class TenantService extends BaseService {
     @InjectRepository(Tenant)
     private readonly repo: Repository<Tenant>,
   ) {
-    super()
+    super(Tenant)
   }
 
   async create(tenant: Tenant) {

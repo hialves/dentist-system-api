@@ -1,12 +1,15 @@
 import { Injectable } from '@nestjs/common'
 import { DataSource } from 'typeorm'
+import { BaseService } from '../../../common/service.repository'
 import { CreateMaterialCategoryDto } from './dto/create-material-category.dto'
 import { UpdateMaterialCategoryDto } from './dto/update-material-category.dto'
 import { MaterialCategory } from './entities/material-category.entity'
 
 @Injectable()
-export class MaterialCategoryService {
-  constructor() {}
+export class MaterialCategoryService extends BaseService {
+  constructor() {
+    super(MaterialCategory)
+  }
 
   create(materialCategories: MaterialCategory[], tenantDataSource: DataSource) {
     return tenantDataSource.getRepository(MaterialCategory).save(materialCategories)
@@ -19,16 +22,6 @@ export class MaterialCategoryService {
 
       return materialCategory
     })
-  }
-
-  findAll(tenantDataSource: DataSource) {
-    const repository = tenantDataSource.getRepository(MaterialCategory)
-    return repository.find()
-  }
-
-  findOne(id: number, tenantDataSource: DataSource) {
-    const repository = tenantDataSource.getRepository(MaterialCategory)
-    return repository.findOneBy({ id })
   }
 
   async update(id: number, dto: UpdateMaterialCategoryDto, tenantDataSource: DataSource) {

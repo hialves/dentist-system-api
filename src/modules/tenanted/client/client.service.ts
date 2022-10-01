@@ -8,7 +8,7 @@ import { Client } from './entities/client.entity'
 @Injectable()
 export class ClientService extends BaseService {
   constructor() {
-    super()
+    super(Client)
   }
 
   async create(client: Client, tenantDataSource: DataSource) {
@@ -38,16 +38,6 @@ export class ClientService extends BaseService {
     client.phone = dto.phone
 
     return client
-  }
-
-  findAll(tenantDataSource: DataSource) {
-    const repository = tenantDataSource.getRepository(Client)
-    return repository.find()
-  }
-
-  findOne(id: number, tenantDataSource: DataSource) {
-    const repository = tenantDataSource.getRepository(Client)
-    return repository.findOneBy({ id })
   }
 
   async update(id: number, dto: UpdateClientDto, tenantDataSource: DataSource) {

@@ -5,8 +5,6 @@ import { BudgetItem } from './entities/budget-item.entity'
 
 @Injectable()
 export class BudgetItemService {
-  constructor() {}
-
   async create(budgetItems: BudgetItem[], tenantDataSource: DataSource, t?: EntityManager) {
     if (t) {
       return t.save(budgetItems)
