@@ -7,7 +7,7 @@ import { TenantService } from '../../public/tenant/tenant.service'
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
-  constructor(private roleService: RoleService, private tenantService: TenantService) {
+  constructor(private roleService: RoleService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
@@ -16,7 +16,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   async validate(payload: IAccessToken): Promise<JwtPayload> {
-    const tenantDataSource = await this.tenantService.getTenantConnection(payload.tenantSchema)
+    const tenantDataSource = await TenantService.getTenantConnection(payload.tenantSchema)
     const permissions = await this.roleService.getRolePermissions(payload.roleId, tenantDataSource)
 
     return { ...payload, permissions }

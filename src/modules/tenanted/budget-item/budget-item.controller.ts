@@ -1,27 +1,26 @@
 import { Controller, Post, Body, Param, Delete } from '@nestjs/common'
+import { DataSource } from 'typeorm'
 import { permissions } from '../../../config/permissions'
 import { RequiredPermission } from '../../../decorators/permission.decorator'
-import { TenantSchema } from '../../../decorators/tenant-schema.decorator'
-import { TenantService } from '../../public/tenant/tenant.service'
+import { TenantConnection } from '../../../decorators/tenant-connection.decorator'
 import { BudgetItemService } from './budget-item.service'
 import { CreateBudgetItemDto } from './dto/create-budget-item.dto'
 
 @Controller('budget-item')
 export class BudgetItemController {
-  constructor(private readonly service: BudgetItemService, private tenantService: TenantService) {}
+  constructor(private readonly service: BudgetItemService) {}
 
   @RequiredPermission(permissions.budgetItem.Create)
   @Post()
-  async create(@Body() dto: CreateBudgetItemDto, @TenantSchema() tenantSchema: string) {
+  async create(@Body() dto: CreateBudgetItemDto, @TenantConnection() tenantDataSource: Promise<DataSource>) {
     const budgetItems = BudgetItemService.createEntities(dto)
-    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
-    return this.service.create(budgetItems, tenantDataSource)
+
+    return this.service.create(budgetItems, await tenantDataSource)
   }
 
   @RequiredPermission(permissions.budgetItem.Delete)
   @Delete(':id')
-  async remove(@Param('id') id: string, @TenantSchema() tenantSchema: string) {
-    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
-    return this.service.remove(+id, tenantDataSource)
+  async remove(@Param('id') id: string, @TenantConnection() tenantDataSource: Promise<DataSource>) {
+    return this.service.remove(+id, await tenantDataSource)
   }
 }

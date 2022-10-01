@@ -4,12 +4,12 @@ import { CreatePermissionDto } from './dto/create-permission.dto'
 import { UpdatePermissionDto } from './dto/update-permission.dto'
 import { permissions } from '../../../config/permissions'
 import { RequiredPermission } from '../../../decorators/permission.decorator'
-import { TenantSchema } from '../../../decorators/tenant-schema.decorator'
-import { TenantService } from '../../public/tenant/tenant.service'
+import { TenantConnection } from '../../../decorators/tenant-connection.decorator'
+import { DataSource } from 'typeorm'
 
 @Controller('permission')
 export class PermissionController {
-  constructor(private readonly service: PermissionService, private tenantService: TenantService) {}
+  constructor(private readonly service: PermissionService) {}
 
   @RequiredPermission(permissions.permission.Create)
   @Post()
@@ -19,29 +19,29 @@ export class PermissionController {
 
   @RequiredPermission(permissions.permission.Read)
   @Get()
-  async findAll(@TenantSchema() tenantSchema: string) {
-    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
-    return this.service.findAll(tenantDataSource)
+  async findAll(@TenantConnection() tenantDataSource: Promise<DataSource>) {
+    return this.service.findAll(await tenantDataSource)
   }
 
   @RequiredPermission(permissions.permission.Read)
   @Get(':id')
-  async findOne(@Param('id') id: string, @TenantSchema() tenantSchema: string) {
-    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
-    return this.service.findOne(+id, tenantDataSource)
+  async findOne(@Param('id') id: string, @TenantConnection() tenantDataSource: Promise<DataSource>) {
+    return this.service.findOne(+id, await tenantDataSource)
   }
 
   @RequiredPermission(permissions.permission.Update)
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() dto: UpdatePermissionDto, @TenantSchema() tenantSchema: string) {
-    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
-    return this.service.update(+id, dto, tenantDataSource)
+  async update(
+    @Param('id') id: string,
+    @Body() dto: UpdatePermissionDto,
+    @TenantConnection() tenantDataSource: Promise<DataSource>,
+  ) {
+    return this.service.update(+id, dto, await tenantDataSource)
   }
 
   @RequiredPermission(permissions.permission.Delete)
   @Delete(':id')
-  async remove(@Param('id') id: string, @TenantSchema() tenantSchema: string) {
-    const tenantDataSource = await this.tenantService.getTenantConnection(tenantSchema)
-    return this.service.remove(+id, tenantDataSource)
+  async remove(@Param('id') id: string, @TenantConnection() tenantDataSource: Promise<DataSource>) {
+    return this.service.remove(+id, await tenantDataSource)
   }
 }

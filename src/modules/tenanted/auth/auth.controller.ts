@@ -29,7 +29,7 @@ export class AuthController {
 
   @Post('auth/employee/finalize-login')
   async employeeFinalizeLogin(@Request() req: IRequest, @Body() body: FinalizeLoginDto) {
-    const tenantDataSource = await this.tenantService.getTenantConnection(req.user.tenantSchema)
+    const tenantDataSource = await TenantService.getTenantConnection(req.user.tenantSchema)
     return this.authService.finalizeLoginEmployee(req.user, body.clinicId, tenantDataSource)
   }
 
