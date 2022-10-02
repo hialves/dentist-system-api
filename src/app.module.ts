@@ -18,8 +18,8 @@ import { ProcedureHistoryModule } from './modules/tenanted/procedure-history/pro
 import { ClientProcedureModule } from './modules/tenanted/client-procedure/client-procedure.module'
 import { BudgetModule } from './modules/tenanted/budget/budget.module'
 import { BudgetItemModule } from './modules/tenanted/budget-item/budget-item.module'
-import { MaterialCategoryModule } from './modules/tenanted/material-category/material-category.module'
-import { MaterialModule } from './modules/tenanted/material/material.module'
+import { StockCategoryModule } from './modules/tenanted/stock-category/stock-category.module'
+import { StockModule } from './modules/tenanted/stock/stock.module'
 import { ExamsModule } from './modules/tenanted/exams/exams.module'
 import { APP_GUARD } from '@nestjs/core'
 import { JwtAuthGuard } from './modules/tenanted/auth/jwt-auth.guard'
@@ -46,8 +46,8 @@ import { TenantModule } from './modules/public/tenant/tenant.module'
     ClientProcedureModule,
     BudgetModule,
     BudgetItemModule,
-    MaterialCategoryModule,
-    MaterialModule,
+    StockCategoryModule,
+    StockModule,
     ExamsModule,
     TenantModule,
   ],

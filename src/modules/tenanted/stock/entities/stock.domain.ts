@@ -1,7 +1,7 @@
 import { Column } from 'typeorm'
 import { BaseEntity } from '../../../../common/entity'
 
-export class MaterialDomain extends BaseEntity {
+export class StockDomain extends BaseEntity {
   @Column({ nullable: false })
   name: string
 
@@ -9,5 +9,5 @@ export class MaterialDomain extends BaseEntity {
   quantity: number
 
   @Column({ nullable: true })
-  materialCategoryId?: number
+  stockCategoryId?: number
 }

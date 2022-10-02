@@ -24,8 +24,8 @@ export class tenant1664107893342 implements MigrationInterface {
     await queryRunner.query(`CREATE TABLE "${schema}"."client" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "name" character varying NOT NULL, "email" character varying NOT NULL, "document" character varying(11), "photo" character varying, "phone" character varying, CONSTRAINT "UQ_6436cc6b79593760b9ef921ef12" UNIQUE ("email"), CONSTRAINT "UQ_463cae6774e9b085ca966d89b4f" UNIQUE ("document"), CONSTRAINT "PK_96da49381769303a6515a8785c7" PRIMARY KEY ("id"))`);
     await queryRunner.query(`CREATE TABLE "${schema}"."budget" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "clientId" integer NOT NULL, "clinicId" integer NOT NULL, "employeeId" integer NOT NULL, CONSTRAINT "PK_9af87bcfd2de21bd9630dddaa0e" PRIMARY KEY ("id"))`);
     await queryRunner.query(`CREATE TABLE "${schema}"."budget_item" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "budgetId" integer NOT NULL, "procedureId" integer NOT NULL, CONSTRAINT "UQ_BUDGET_ITEM_BUDGET_ID_PROCEDURE_ID" UNIQUE ("budgetId", "procedureId"), CONSTRAINT "PK_28827d376580578abe27ada04bb" PRIMARY KEY ("id"))`);
-    await queryRunner.query(`CREATE TABLE "${schema}"."material_category" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "name" character varying NOT NULL, CONSTRAINT "PK_f801cc3914e97d9ba4ba87c5d4d" PRIMARY KEY ("id"))`);
-    await queryRunner.query(`CREATE TABLE "${schema}"."material" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "name" character varying NOT NULL, "quantity" integer NOT NULL, "materialCategoryId" integer, CONSTRAINT "PK_0343d0d577f3effc2054cbaca7f" PRIMARY KEY ("id"))`);
+    await queryRunner.query(`CREATE TABLE "${schema}"."stock_category" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "name" character varying NOT NULL, CONSTRAINT "PK_f801cc3914e97d9ba4ba87c5d4d" PRIMARY KEY ("id"))`);
+    await queryRunner.query(`CREATE TABLE "${schema}"."stock" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "name" character varying NOT NULL, "quantity" integer NOT NULL, "stockCategoryId" integer, CONSTRAINT "PK_0343d0d577f3effc2054cbaca7f" PRIMARY KEY ("id"))`);
     await queryRunner.query(`ALTER TABLE "${schema}"."admin" ADD CONSTRAINT "FK_ADMIN_ROLE_ID" FOREIGN KEY ("roleId") REFERENCES "${schema}"."role"("id") ON DELETE CASCADE ON UPDATE CASCADE`);
     await queryRunner.query(`ALTER TABLE "${schema}"."role_permission" ADD CONSTRAINT "FK_ROLE_PERMISSION_ROLE_ID" FOREIGN KEY ("roleId") REFERENCES "${schema}"."role"("id") ON DELETE CASCADE ON UPDATE CASCADE`);
     await queryRunner.query(`ALTER TABLE "${schema}"."role_permission" ADD CONSTRAINT "FK_ROLE_PERMISSION_PERMISSION_ID" FOREIGN KEY ("permissionId") REFERENCES "${schema}"."permission"("id") ON DELETE CASCADE ON UPDATE CASCADE`);
@@ -42,13 +42,13 @@ export class tenant1664107893342 implements MigrationInterface {
     await queryRunner.query(`ALTER TABLE "${schema}"."budget" ADD CONSTRAINT "FK_BUDGET_CLINIC_ID" FOREIGN KEY ("clinicId") REFERENCES "${schema}"."clinic"("id") ON DELETE CASCADE ON UPDATE CASCADE`);
     await queryRunner.query(`ALTER TABLE "${schema}"."budget_item" ADD CONSTRAINT "FK_BUDGET_ITEM_BUDGET_ID" FOREIGN KEY ("budgetId") REFERENCES "${schema}"."budget"("id") ON DELETE CASCADE ON UPDATE CASCADE`);
     await queryRunner.query(`ALTER TABLE "${schema}"."budget_item" ADD CONSTRAINT "FK_BUDGET_ITEM_PROCEDURE_ID" FOREIGN KEY ("procedureId") REFERENCES "${schema}"."procedure"("id") ON DELETE CASCADE ON UPDATE CASCADE`);
-    await queryRunner.query(`ALTER TABLE "${schema}"."material" ADD CONSTRAINT "FK_MATERIAL_MATERIAL_CATEGORY_ID" FOREIGN KEY ("materialCategoryId") REFERENCES "${schema}"."material_category"("id") ON DELETE SET NULL ON UPDATE CASCADE`);
+    await queryRunner.query(`ALTER TABLE "${schema}"."stock" ADD CONSTRAINT "FK_STOCK_STOCK_CATEGORY_ID" FOREIGN KEY ("stockCategoryId") REFERENCES "${schema}"."stock_category"("id") ON DELETE SET NULL ON UPDATE CASCADE`);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     const { schema } = queryRunner.connection.options as PostgresConnectionOptions
     
-    await queryRunner.query(`ALTER TABLE "${schema}"."material" DROP CONSTRAINT "FK_MATERIAL_MATERIAL_CATEGORY_ID"`);
+    await queryRunner.query(`ALTER TABLE "${schema}"."stock" DROP CONSTRAINT "FK_STOCK_STOCK_CATEGORY_ID"`);
     await queryRunner.query(`ALTER TABLE "${schema}"."budget_item" DROP CONSTRAINT "FK_BUDGET_ITEM_PROCEDURE_ID"`);
     await queryRunner.query(`ALTER TABLE "${schema}"."budget_item" DROP CONSTRAINT "FK_BUDGET_ITEM_BUDGET_ID"`);
     await queryRunner.query(`ALTER TABLE "${schema}"."budget" DROP CONSTRAINT "FK_BUDGET_CLINIC_ID"`);
@@ -65,8 +65,8 @@ export class tenant1664107893342 implements MigrationInterface {
     await queryRunner.query(`ALTER TABLE "${schema}"."role_permission" DROP CONSTRAINT "FK_ROLE_PERMISSION_PERMISSION_ID"`);
     await queryRunner.query(`ALTER TABLE "${schema}"."role_permission" DROP CONSTRAINT "FK_ROLE_PERMISSION_ROLE_ID"`);
     await queryRunner.query(`ALTER TABLE "${schema}"."admin" DROP CONSTRAINT "FK_ADMIN_ROLE_ID"`);
-    await queryRunner.query(`DROP TABLE "${schema}"."material"`);
-    await queryRunner.query(`DROP TABLE "${schema}"."material_category"`);
+    await queryRunner.query(`DROP TABLE "${schema}"."stock"`);
+    await queryRunner.query(`DROP TABLE "${schema}"."stock_category"`);
     await queryRunner.query(`DROP TABLE "${schema}"."budget_item"`);
     await queryRunner.query(`DROP TABLE "${schema}"."budget"`);
     await queryRunner.query(`DROP TABLE "${schema}"."client"`);

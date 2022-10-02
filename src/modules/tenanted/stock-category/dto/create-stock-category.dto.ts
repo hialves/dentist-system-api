@@ -1,6 +1,6 @@
 import { ArrayNotEmpty, IsArray } from 'class-validator'
 
-export class CreateMaterialCategoryDto {
+export class CreateStockCategoryDto {
   @ArrayNotEmpty()
   @IsArray()
   names: string[]

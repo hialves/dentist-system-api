@@ -10,8 +10,8 @@ type PermissionFields = {
   employee: PermissionObject
   employeeClinic: PermissionObject
   exams: PermissionObject
-  material: PermissionObject
-  materialCategory: PermissionObject
+  stock: PermissionObject
+  stockCategory: PermissionObject
   permission: PermissionObject
   procedure: PermissionObject
   procedureHistory: PermissionObject
@@ -40,8 +40,8 @@ const permissions: PermissionFields = {
   employee: {},
   employeeClinic: {},
   exams: {},
-  material: {},
-  materialCategory: {},
+  stock: {},
+  stockCategory: {},
   permission: {},
   procedure: {},
   procedureHistory: {},

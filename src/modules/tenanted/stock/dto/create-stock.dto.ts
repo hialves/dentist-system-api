@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsOptional } from 'class-validator'
 
-export class CreateMaterialDto {
+export class CreateStockDto {
   @IsNotEmpty()
   name: string
 
@@ -8,5 +8,5 @@ export class CreateMaterialDto {
   quantity: number
 
   @IsOptional()
-  materialCategoryId?: number
+  stockCategoryId?: number
 }
