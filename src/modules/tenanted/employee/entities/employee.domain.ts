@@ -20,10 +20,10 @@ export class EmployeeDomain extends BaseEntity {
   @Column({ nullable: true })
   photo?: string
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, select: false })
   recoverPasswordToken?: string
 
-  @Column('timestamp', { nullable: true })
+  @Column('timestamp', { nullable: true, select: false })
   recoverPasswordTokenExpire?: string
 
   @DeleteDateColumn()

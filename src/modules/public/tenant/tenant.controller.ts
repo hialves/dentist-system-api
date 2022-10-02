@@ -3,6 +3,8 @@ import { TenantService } from './tenant.service'
 import { CreateTenantDto } from './dto/create-tenant.dto'
 import { UpdateTenantDto } from './dto/update-tenant.dto'
 import { Public } from '../../../decorators/public.decorator'
+import { EmployeeService } from '../../tenanted/employee/employee.service'
+import { ClinicService } from '../../tenanted/clinic/clinic.service'
 
 @Controller('tenant')
 export class TenantController {
@@ -11,8 +13,12 @@ export class TenantController {
   @Public()
   @Post()
   async create(@Body() dto: CreateTenantDto) {
+    console.log({ dto })
     const tenant = await this.service.createEntity(dto)
-    return this.service.create(tenant)
+    const clinic = ClinicService.createEntity(dto.clinic)
+    const employee = await EmployeeService.createEntity(dto.employee)
+
+    return this.service.create(tenant, clinic, employee)
   }
 
   @Get()

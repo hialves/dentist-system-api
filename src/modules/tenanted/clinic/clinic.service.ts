@@ -1,56 +1,21 @@
 import { Injectable } from '@nestjs/common'
 import { DataSource, EntityManager } from 'typeorm'
 import { BaseService } from '../../../common/service.repository'
-import { EmployeeService } from '../employee/employee.service'
-import { EmployeeClinicService } from '../employee_clinic/employee-clinic.service'
-import { RoleSlugEnum } from '../role/entities/role.domain'
-import { RoleService } from '../role/role.service'
-import { ClinicFieldDto, CreateFirstClinicDto } from './dto/create-first-clinic.dto'
+import { CreateClinicDto } from './dto/create.dto'
 import { UpdateClinicDto } from './dto/update-clinic.dto'
 import { Clinic } from './entities/clinic.entity'
 
 @Injectable()
 export class ClinicService extends BaseService {
-  constructor(
-    private employeeService: EmployeeService,
-    private employeeClinicService: EmployeeClinicService,
-    private roleService: RoleService,
-  ) {
+  constructor() {
     super(Clinic)
-  }
-
-  async createFirstClinic(dto: CreateFirstClinicDto, tenantDataSource: DataSource) {
-    const employee = await EmployeeService.createEntity(dto.employee)
-    const clinic = ClinicService.createEntity(dto.clinic)
-    const role = await this.roleService.findOneBySlug(RoleSlugEnum.ClinicOwner, tenantDataSource)
-
-    const queryRunner = tenantDataSource.createQueryRunner()
-    await queryRunner.connect()
-    await queryRunner.startTransaction()
-    const t = queryRunner.manager
-
-    try {
-      await this.employeeService.create(employee, tenantDataSource, t)
-      await this.create(clinic, tenantDataSource, t)
-
-      const employeeClinic = EmployeeClinicService.createEntity(employee, clinic, role)
-      await this.employeeClinicService.create(employeeClinic, tenantDataSource, t)
-
-      await queryRunner.commitTransaction()
-      return employee
-    } catch (err) {
-      await queryRunner.rollbackTransaction()
-      throw err
-    } finally {
-      await queryRunner.release()
-    }
   }
 
   async create(clinic: Clinic, tenantDataSource: DataSource, t?: EntityManager) {
     return t ? t.save(clinic) : tenantDataSource.manager.save(clinic)
   }
 
-  static createEntity(dto: ClinicFieldDto) {
+  static createEntity(dto: CreateClinicDto) {
     const clinic = new Clinic()
     clinic.name = dto.name
     clinic.document = dto.document

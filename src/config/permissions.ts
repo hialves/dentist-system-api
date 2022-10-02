@@ -1,6 +1,5 @@
 type PermissionObject = { Manage?: string; Create?: string; Read?: string; Update?: string; Delete?: string }
 type PermissionFields = {
-  admin: PermissionObject
   auth: PermissionObject
   budget: PermissionObject
   budgetItem: PermissionObject
@@ -30,7 +29,6 @@ const sufixPermissions: PermissionObject = {
 const _permissions = Object.values(sufixPermissions)
 
 const permissions: PermissionFields = {
-  admin: {},
   auth: {},
   budget: {},
   budgetItem: {},
@@ -50,15 +48,19 @@ const permissions: PermissionFields = {
 }
 
 const _controllers = Object.keys(permissions)
-let query = 'INSERT INTO permission (name) VALUES '
+let permissionsQuery = 'INSERT INTO ":schema".permission (name) VALUES '
 
 for (const controller of _controllers) {
   for (const permission of _permissions) {
     Object.assign(permissions[controller], { [permission]: `${controller}_${permission}` })
-    query += `('${controller}_${permission}'),`
+    permissionsQuery += `('${controller}_${permission}'),`
   }
 }
 
-query = query.slice(0, -1)
+permissionsQuery = permissionsQuery.slice(0, -1)
 
-export { permissions, sufixPermissions, query }
+const getPermissionsQuery = (schema: string) => {
+  return permissionsQuery.replace(':schema', schema)
+}
+
+export { permissions, sufixPermissions, getPermissionsQuery }

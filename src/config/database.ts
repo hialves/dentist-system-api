@@ -22,6 +22,7 @@ export const databaseConfig: PostgresConnectionOptions = {
 
 export const databaseTenantConfig: PostgresConnectionOptions = {
   ...databaseConfig,
+  synchronize: false,
   entities: [join(__dirname, '..', 'modules/tenanted/**/**/*.entity{.js,.ts}')],
   migrations: [join(__dirname, '..', 'migrations/tenanted/*{.js,.ts}')],
 }

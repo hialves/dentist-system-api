@@ -8,5 +8,8 @@ export class CreateClinicDto {
   document: string
 
   @IsOptional()
+  phone?: string
+
+  @IsOptional()
   address?: string
 }

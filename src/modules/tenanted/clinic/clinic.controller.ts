@@ -2,25 +2,14 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { DataSource } from 'typeorm'
 import { permissions } from '../../../config/permissions'
 import { RequiredPermission } from '../../../decorators/permission.decorator'
-import { Public } from '../../../decorators/public.decorator'
 import { TenantConnection } from '../../../decorators/tenant-connection.decorator'
-import { TenantSchema } from '../../../decorators/tenant-schema.decorator'
-import { TenantService } from '../../public/tenant/tenant.service'
 import { ClinicService } from './clinic.service'
-import { CreateFirstClinicDto } from './dto/create-first-clinic.dto'
 import { CreateClinicDto } from './dto/create.dto'
 import { UpdateClinicDto } from './dto/update-clinic.dto'
 
 @Controller('clinic')
 export class ClinicController {
-  constructor(private readonly service: ClinicService, private tenantService: TenantService) {}
-
-  @Public()
-  @Post('first-clinic/:schemaExternalRef')
-  async createFirstClinic(@Body() dto: CreateFirstClinicDto, @Param('schemaExternalRef') schemaExternalRef: string) {
-    const tenantDataSource = await this.tenantService.getTenantConnectionByExternalRef(schemaExternalRef)
-    return this.service.createFirstClinic(dto, await tenantDataSource)
-  }
+  constructor(private readonly service: ClinicService) {}
 
   @RequiredPermission(permissions.clinic.Create)
   @Post()
@@ -32,9 +21,8 @@ export class ClinicController {
 
   @RequiredPermission(permissions.clinic.Read)
   @Get()
-  async findAll(@TenantSchema() tenantDataSource: Promise<DataSource>) {
-    //
-    return this.service.findAll(await await tenantDataSource)
+  async findAll(@TenantConnection() tenantDataSource: Promise<DataSource>) {
+    return this.service.findAll(await tenantDataSource)
   }
 
   @RequiredPermission(permissions.clinic.Read)

@@ -1,4 +1,12 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateTenantDto } from './create-tenant.dto';
+import { PartialType } from '@nestjs/swagger'
+import { IsOptional } from 'class-validator'
 
-export class UpdateTenantDto extends PartialType(CreateTenantDto) {}
+class UpdateDto {
+  @IsOptional()
+  name: string
+
+  @IsOptional()
+  schemaExternalRef: string
+}
+
+export class UpdateTenantDto extends PartialType(UpdateDto) {}

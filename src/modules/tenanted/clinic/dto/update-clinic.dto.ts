@@ -1,4 +1,4 @@
 import { PartialType } from '@nestjs/swagger'
-import { ClinicFieldDto } from './create-first-clinic.dto'
+import { CreateClientDto } from '../../client/dto/create-client.dto'
 
-export class UpdateClinicDto extends PartialType(ClinicFieldDto) {}
+export class UpdateClinicDto extends PartialType(CreateClientDto) {}
