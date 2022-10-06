@@ -5,10 +5,11 @@ import { CreateEmployeeDto } from './dto/create-employee.dto'
 import { Employee } from './entities/employee.entity'
 import { hashPassword } from '../../../utils/hash-password'
 import { UpdateEmployeeDto } from './dto/update-employee.dto'
+import { MailService } from '../../../mail/mail.service'
 
 @Injectable()
 export class EmployeeService extends BaseService {
-  constructor() {
+  constructor(private mailService: MailService) {
     super(Employee)
   }
 
@@ -24,6 +25,17 @@ export class EmployeeService extends BaseService {
     )
 
     return t ? t.save(employee) : tenantDataSource.manager.save(employee)
+  }
+
+  async createInternal(employee: Employee, originalPassword: string, tenantDataSource: DataSource, t?: EntityManager) {
+    await tenantDataSource.manager.save(employee)
+    await this.mailService.sendMail({
+      to: employee.email,
+      subject: 'Usuário criado',
+      html: `<html><body><p>Usuário criado, realize o login com seu email e senha, sua senha temporária é ${originalPassword}</p></body></html>`,
+    })
+
+    return employee
   }
 
   static async createEntity(dto: CreateEmployeeDto): Promise<Employee> {
