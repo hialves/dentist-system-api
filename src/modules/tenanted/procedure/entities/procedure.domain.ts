@@ -10,5 +10,5 @@ export class ProcedureDomain extends BaseEntity {
   value: number
 
   @DeleteDateColumn()
-  deletedAt: string
+  deletedAt?: string
 }

@@ -18,5 +18,5 @@ export class ClinicDomain extends BaseEntity {
   icon?: string
 
   @DeleteDateColumn()
-  deletedAt: string
+  deletedAt?: string
 }

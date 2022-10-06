@@ -15,5 +15,5 @@ export class RoleDomain extends BaseEntity {
   slug?: RoleSlugEnum
 
   @DeleteDateColumn()
-  deletedAt: string
+  deletedAt?: string
 }

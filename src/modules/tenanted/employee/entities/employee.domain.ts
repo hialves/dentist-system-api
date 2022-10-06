@@ -27,5 +27,5 @@ export class EmployeeDomain extends BaseEntity {
   recoverPasswordTokenExpire?: string
 
   @DeleteDateColumn()
-  deletedAt: string
+  deletedAt?: string
 }
