@@ -5,6 +5,7 @@ import { v4 as uuid } from 'uuid'
 import { BaseService } from '../../../common/service.repository'
 import { getPermissionsQuery } from '../../../config/permissions'
 import { AppDataSourceTenant } from '../../../data-source.tenant'
+import { generateRandomCharacters } from '../../../utils/random-characters'
 import { removeSpecialValues } from '../../../utils/regex'
 import { ClinicService } from '../../tenanted/clinic/clinic.service'
 import { Clinic } from '../../tenanted/clinic/entities/clinic.entity'
@@ -144,7 +145,7 @@ export class TenantService extends BaseService {
 
       return currentName
     } else {
-      const randomCharacters = (Math.random() + 1).toString(36).slice(2, 7)
+      const randomCharacters = generateRandomCharacters(5)
       return `${originalName}-${randomCharacters}`
     }
   }
