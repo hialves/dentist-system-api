@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { BudgetService } from './budget.service'
 import { BudgetItemService } from '../budget-item/budget-item.service'
-import { DataSourceMock } from '../../test/utils/data-source.mock'
+import { DataSourceMock } from '../../../test/utils/data-source.mock'
 import { BadRequestException } from '@nestjs/common'
-import { BudgetItemRepositoryMock, BudgetRepositoryMock } from '../../test/utils/entity.mock'
+import { BudgetItemRepositoryMock, BudgetRepositoryMock } from '../../../test/utils/entity.mock'
 
 describe('BudgetService', () => {
   let service: BudgetService

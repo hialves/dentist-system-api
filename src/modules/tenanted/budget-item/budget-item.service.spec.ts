@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { BudgetItemRepositoryMock } from '../../test/utils/entity.mock'
+import { BudgetItemRepositoryMock } from '../../../test/utils/entity.mock'
 import { BudgetItemService } from './budget-item.service'
 
 describe('BudgetItemService', () => {
