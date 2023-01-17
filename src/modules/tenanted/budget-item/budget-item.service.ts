@@ -13,8 +13,9 @@ export class BudgetItemService {
     return budgetItems
   }
 
-  static createEntities(dto: CreateBudgetItemDto) {
-    return dto.procedureIds.map((procedureId) => {
+  static createEntities(dto: CreateBudgetItemDto): BudgetItem[] {
+    const procedureIds = new Set(dto.procedureIds)
+    return Array.from(procedureIds).map((procedureId) => {
       const budgetItem = new BudgetItem()
       budgetItem.budgetId = dto.budgetId
       budgetItem.procedureId = procedureId
