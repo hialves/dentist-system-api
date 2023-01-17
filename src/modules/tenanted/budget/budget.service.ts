@@ -36,7 +36,7 @@ export class BudgetService extends BaseService {
 
   static createEntity(dto: CreateBudgetDto) {
     if (!dto.clientId || !dto.clinicId || !dto.employeeId) {
-      throw new BadRequestException('Informe cliente, cliníca e funcionário')
+      throw new BadRequestException('Inform client, clinic and employee')
     }
     const budget = new Budget()
     budget.clientId = dto.clientId
