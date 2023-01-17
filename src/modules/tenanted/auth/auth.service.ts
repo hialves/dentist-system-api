@@ -76,7 +76,7 @@ export class AuthService {
     }
   }
 
-  async sendRecoverPasswordEmail(email: string, tenantDataSource: DataSource) {
+  async sendEmailRecoverPassword(email: string, tenantDataSource: DataSource) {
     const resetToken = crypto.randomBytes(20).toString('hex')
     const token = crypto.createHash('sha256').update(resetToken).digest('hex')
     let user: {
@@ -89,12 +89,12 @@ export class AuthService {
     await this.dataSource.manager.save(user)
     await this.mailService.sendMail({
       to: email,
-      subject: 'Recuperação de senha',
+      subject: 'Recover your password',
       // TODO
       html: `
         <html>
           <body>
-            <a href="${process.env.FRONT_END_DOMAIN}/recover-password?token=${token}">Recuperar senha</span>
+            <a href="${process.env.FRONT_END_DOMAIN}/recover-password?token=${token}">Recover Password</span>
             <br>
             <a href="${process.env.FRONT_END_DOMAIN}/recover-password?token=${token}">${process.env.FRONT_END_DOMAIN}/recover-password/${token}</span>
           </body>

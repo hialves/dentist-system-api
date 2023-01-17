@@ -43,9 +43,12 @@ export class AuthController {
 
   @Public()
   @Post('send-email-recover-password/:schemaExternalRef')
-  async sendRecoverPassword(@Body() body: { email: string }, @Param('schemaExternalRef') schemaExternalRef: string) {
+  async sendEmailRecoverPassword(
+    @Body() body: { email: string },
+    @Param('schemaExternalRef') schemaExternalRef: string,
+  ) {
     const tenantDataSource = await this.tenantService.getTenantConnectionByExternalRef(schemaExternalRef)
-    return this.authService.sendRecoverPasswordEmail(body.email, tenantDataSource)
+    return this.authService.sendEmailRecoverPassword(body.email, tenantDataSource)
   }
 
   @Public()
