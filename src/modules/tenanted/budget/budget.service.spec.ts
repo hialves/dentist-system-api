@@ -4,9 +4,11 @@ import { BudgetItemService } from '../budget-item/budget-item.service'
 import { DataSourceMock } from '../../../test/utils/data-source.mock'
 import { BadRequestException } from '@nestjs/common'
 import { BudgetItemRepositoryMock, BudgetRepositoryMock } from '../../../test/utils/entity.mock'
+import { DataSource } from 'typeorm'
 
 describe('BudgetService', () => {
   let service: BudgetService
+  let tenantDataSource: DataSource
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -15,6 +17,7 @@ describe('BudgetService', () => {
     }).compile()
 
     service = module.get<BudgetService>(BudgetService)
+    tenantDataSource = module.get(DataSource)
   })
 
   it('should be defined', () => {
@@ -30,7 +33,7 @@ describe('BudgetService', () => {
         procedureIds: [1, 2],
       }
       const budget = BudgetService.createEntity(dto)
-      const result = await service.create(budget, dto.procedureIds)
+      const result = await service.create(budget, dto.procedureIds, tenantDataSource)
 
       expect(result.id).toBeDefined()
       expect(result.budgetItems).toBeDefined()
