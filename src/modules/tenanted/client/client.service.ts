@@ -17,11 +17,11 @@ export class ClientService extends BaseService {
       [
         {
           where: { email: client.email },
-          errorMessage: 'Email já cadastrado',
+          errorMessage: 'E-mail already used',
         },
         {
           where: { document: client.document },
-          errorMessage: 'CPF já cadastrado',
+          errorMessage: 'Document already used',
         },
       ],
       repository,
