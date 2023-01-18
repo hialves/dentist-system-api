@@ -25,7 +25,7 @@ describe('BudgetItemService', () => {
       expect(dto.procedureIds.length).toBe(set.size)
     })
 
-    it('should have the same length as in the set of the procedureIds if there are repeated procedureIds', () => {
+    it('should have the same length as in the set of procedureIds if there are repeated procedureIds', () => {
       const dto = { budgetId: 1, procedureIds: [1, 2, 2, 3] }
       const set = new Set(dto.procedureIds)
       const entities = BudgetItemService.createEntities(dto)
