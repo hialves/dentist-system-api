@@ -5,6 +5,7 @@ import { DataSource } from 'typeorm'
 import { Client } from './entities/client.entity'
 import { InMemoryTypeormTestingDatabase } from '../../../test/utils/in-memory-db'
 import { BadRequestException } from '@nestjs/common/exceptions/bad-request.exception'
+import { join } from 'path'
 
 describe('ClientService', () => {
   let service: ClientService
@@ -30,7 +31,7 @@ describe('ClientService', () => {
       client.name = 'name'
       client.email = 'test@test.com'
       client.document = '12345678900'
-      const dataSource = await InMemoryTypeormTestingDatabase([Client])
+      const dataSource = await InMemoryTypeormTestingDatabase()
       const repo = dataSource.getRepository(Client)
       await repo.save(client)
       try {

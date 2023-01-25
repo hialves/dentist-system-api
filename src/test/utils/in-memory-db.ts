@@ -1,11 +1,12 @@
-import { DataSource, EntitySchema, MixedList } from 'typeorm'
+import { join } from 'path'
+import { DataSource } from 'typeorm'
 
-export const InMemoryTypeormTestingDatabase = async (entities: MixedList<string | Function | EntitySchema<any>>) => {
+export const InMemoryTypeormTestingDatabase = async (isTenantModule: boolean = true) => {
   const dataSource = new DataSource({
     type: 'better-sqlite3',
     database: ':memory:',
     dropSchema: true,
-    entities,
+    entities: [join(__dirname, '..', `modules/${isTenantModule ? 'tenanted' : 'public'}/**/**/*.entity{.js,.ts}`)],
     synchronize: true,
   })
 
