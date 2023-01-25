@@ -1,5 +1,6 @@
 import { Column, DeleteDateColumn } from 'typeorm'
 import { BaseEntity } from '../../../../common/entity'
+import { isTestEnv } from '../../../../test/utils/env'
 
 export enum RoleSlugEnum {
   ClinicOwner = 'clinic_owner',
@@ -11,7 +12,13 @@ export class RoleDomain extends BaseEntity {
   @Column('varchar', { nullable: false })
   name: string
 
-  @Column({ type: 'enum', enum: RoleSlugEnum, enumName: 'ROLE_SLUG_ENUM', nullable: true, unique: true })
+  @Column({
+    type: isTestEnv ? 'varchar' : 'enum',
+    enum: RoleSlugEnum,
+    enumName: 'ROLE_SLUG_ENUM',
+    nullable: true,
+    unique: true,
+  })
   slug?: RoleSlugEnum
 
   @DeleteDateColumn()

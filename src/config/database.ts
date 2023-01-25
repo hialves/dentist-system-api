@@ -1,6 +1,7 @@
 import 'dotenv/config'
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions'
 import { join } from 'path'
+import { isTestEnv } from '../test/utils/env'
 
 export const databaseConfig: PostgresConnectionOptions = {
   username: process.env.TYPEORM_USERNAME,
@@ -10,7 +11,7 @@ export const databaseConfig: PostgresConnectionOptions = {
   entities: [join(__dirname, '..', 'modules/public/**/**/*.entity{.js,.ts}')],
   // TODO: uncomment
   // migrations: [join(__dirname, '..', 'migrations/public/*{.js,.ts}')],
-  database: process.env.NODE_ENV === 'test' ? process.env.TEST_DATABASE : process.env.TYPEORM_DATABASE,
+  database: isTestEnv ? process.env.TEST_DATABASE : process.env.TYPEORM_DATABASE,
   host: process.env.TYPEORM_HOST,
   // TODO: change to false
   synchronize: true,

@@ -1,5 +1,6 @@
 import { Column } from 'typeorm'
 import { BaseEntity } from '../../../../common/entity'
+import { isTestEnv } from '../../../../test/utils/env'
 
 export class ClientProcedureDomain extends BaseEntity {
   @Column({ nullable: false })
@@ -24,9 +25,9 @@ export class ClientProcedureDomain extends BaseEntity {
   @Column({ nullable: true, default: false })
   executed?: boolean
 
-  @Column('timestamp', { nullable: false })
+  @Column(isTestEnv ? 'datetime' : 'timestamp', { nullable: false })
   startDate: string
 
-  @Column('timestamp', { nullable: false })
+  @Column(isTestEnv ? 'datetime' : 'timestamp', { nullable: false })
   endDate: string
 }

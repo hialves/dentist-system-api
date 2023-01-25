@@ -1,5 +1,6 @@
 import { Column, DeleteDateColumn } from 'typeorm'
 import { BaseEntity } from '../../../../common/entity'
+import { isTestEnv } from '../../../../test/utils/env'
 
 export class EmployeeDomain extends BaseEntity {
   @Column({ nullable: false })
@@ -23,7 +24,7 @@ export class EmployeeDomain extends BaseEntity {
   @Column({ nullable: true, select: false })
   recoverPasswordToken?: string
 
-  @Column('timestamp', { nullable: true, select: false })
+  @Column(isTestEnv ? 'datetime' : 'timestamp', { nullable: true, select: false })
   recoverPasswordTokenExpire?: string
 
   @DeleteDateColumn()
