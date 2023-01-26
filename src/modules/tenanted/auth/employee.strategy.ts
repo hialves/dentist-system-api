@@ -23,12 +23,7 @@ export class EmployeeStrategy extends PassportStrategy(Strategy, 'employee') {
     const tenantDataSource = await this.tenantService.getTenantConnectionByExternalRef(schemaExternalRef)
     const dataSourceOptions: any = tenantDataSource.options
     const tenantSchema: string = dataSourceOptions.schema
-    const employee = await this.authService.validateEntity(
-      email,
-      password,
-      this.employeeService,
-      await tenantDataSource,
-    )
+    const employee = await this.authService.validateEntity(email, password, this.employeeService, tenantDataSource)
 
     if (!employee) {
       throw new BadRequestException('Email ou senha inválidos')
