@@ -21,14 +21,11 @@ export class ClientProcedureService extends BaseService {
       clientProcedure.clientId = dto.clientId
       clientProcedure.clinicId = dto.clinicId
       clientProcedure.employeeId = dto.employeeId
-      clientProcedure.startDate = item.startDate
-      clientProcedure.endDate = item.endDate
+      clientProcedure.procedureDate = item.procedureDate
       clientProcedure.executed = item.executed
       clientProcedure.receivedValue = item.receivedValue
       clientProcedure.value = item.value
       clientProcedure.procedureId = item.procedureId
-
-      // TODO: validar startDate, endDate
 
       return clientProcedure
     })

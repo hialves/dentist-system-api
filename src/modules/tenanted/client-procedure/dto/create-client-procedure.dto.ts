@@ -17,11 +17,7 @@ class ProcedureInfo {
 
   @IsNotEmpty()
   @IsISO8601()
-  startDate: string
-
-  @IsNotEmpty()
-  @IsISO8601()
-  endDate: string
+  procedureDate: string
 }
 
 export class CreateClientProcedureDto {

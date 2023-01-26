@@ -26,8 +26,5 @@ export class ClientProcedureDomain extends BaseEntity {
   executed?: boolean
 
   @Column(isTestEnv ? 'datetime' : 'timestamp', { nullable: false })
-  startDate: string
-
-  @Column(isTestEnv ? 'datetime' : 'timestamp', { nullable: false })
-  endDate: string
+  procedureDate: string
 }
