@@ -6,7 +6,9 @@ export const InMemoryTypeormTestingDatabase = async (isTenantModule: boolean = t
     type: 'better-sqlite3',
     database: ':memory:',
     dropSchema: true,
-    entities: [join(__dirname, '..', `modules/${isTenantModule ? 'tenanted' : 'public'}/**/**/*.entity{.js,.ts}`)],
+    entities: [
+      join(__dirname, '..', '..', `modules/${isTenantModule ? 'tenanted' : 'public'}/**/**/*.entity{.js,.ts}`),
+    ],
     synchronize: true,
   })
 
