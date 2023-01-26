@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { ClientService } from './client.service'
-import { DataSourceMock } from '../../../test/utils/data-source.mock'
 import { DataSource, Repository } from 'typeorm'
 import { Client } from './entities/client.entity'
 import { InMemoryTypeormTestingDatabase } from '../../../test/utils/in-memory-db'
@@ -21,7 +20,7 @@ describe('ClientService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ClientService, DataSourceMock],
+      providers: [ClientService],
     }).compile()
 
     service = module.get<ClientService>(ClientService)
@@ -103,6 +102,28 @@ describe('ClientService', () => {
       expect(client.updatedAt).toBeDefined()
       expect(client.updatedAt).toBeInstanceOf(Date)
       expect(client.email).toBeDefined()
+    })
+  })
+
+  describe('createEntity', () => {
+    it('should not contain values when not passed', () => {
+      const r = ClientService.createEntity({ email: 'test@test.com', name: 'test' })
+      expect(r.document).toBeUndefined()
+      expect(r.phone).toBeUndefined()
+      expect(r.photo).toBeUndefined()
+    })
+
+    it('should contain all passed values', () => {
+      const r = ClientService.createEntity({
+        email: 'test@test.com',
+        name: 'test',
+        document: '12345',
+        phone: '9999999999',
+      })
+      expect(r.email).toBeDefined()
+      expect(r.name).toBeDefined()
+      expect(r.document).toBeDefined()
+      expect(r.phone).toBeDefined()
     })
   })
 })
