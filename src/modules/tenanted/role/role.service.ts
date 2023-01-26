@@ -16,6 +16,16 @@ export class RoleService extends BaseService {
     return 'This action adds a new role'
   }
 
+  static createEntities(dto: CreateRoleDto[]): Role[] {
+    return dto.map((item) => {
+      const role = new Role()
+      role.name = item.name
+      role.slug = item.slug
+
+      return role
+    })
+  }
+
   findOneBySlug(slug: RoleSlugEnum, tenantDataSource: DataSource) {
     return tenantDataSource.getRepository(Role).findOneBy({ slug })
   }
