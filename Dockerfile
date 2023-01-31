@@ -6,4 +6,4 @@ COPY package.json /usr/app/
 RUN npm install --only=production --quiet
 COPY . /usr/app/
 
-CMD [ "npm", "run", "prod" ]
+CMD [ "yarn", "prod" ]
