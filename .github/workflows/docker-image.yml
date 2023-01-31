@@ -15,7 +15,7 @@ jobs:
       - name: Build the Docker image
         run: docker build . --file Dockerfile.dev --tag hialves/dentist-system-api
       - name: Login to Docker Hub
-        run: echo "$DOCKER_HUB_LOGIN" | docker login -u "$DOCKER_HUB_LOGIN" --password-stdin
+        run: echo "$DOCKER_HUB_LOGIN" | docker login --username "$DOCKER_HUB_LOGIN" --password-stdin
       - uses: actions/upload-artifact@v3.1.2
       - name: Upload the Docker image
         run: docker push hialves/dentist-system-api
