@@ -1,0 +1,17 @@
+name: Test CI
+
+on:
+  pull_request:
+    branches: ['main', 'develop']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker build --file Dockerfile.dev --tag hialves/dentist-system-api .
+
+      - name: Automated Tests Run
+        run: docker run hialves/dentist-system-api yarn test -- --coverage
