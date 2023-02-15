@@ -44,5 +44,5 @@ jobs:
           environment_name: develop
           region: us-east-2
           existing_bucket_name: elasticbeanstalk-us-east-2-172646517932
-          version_label: 'Sample Application ${{ github.sha }}'
+          version_label: 'Sample Application-${{ github.sha }}'
           deployment_package: deploy.zip
