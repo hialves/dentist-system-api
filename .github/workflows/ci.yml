@@ -46,4 +46,3 @@ jobs:
           existing_bucket_name: elasticbeanstalk-us-east-2-172646517932
           version_label: 'dentist-system-api-${{ github.sha }}'
           deployment_package: deploy.zip
-          use_existing_version_if_available: true
