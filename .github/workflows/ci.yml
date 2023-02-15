@@ -2,7 +2,7 @@ name: Docker Image CI
 
 on:
   push:
-    branches: ['main']
+    branches: ['ci-test']
 
 jobs:
   build:
@@ -24,3 +24,18 @@ jobs:
 
       - name: Upload the Docker image
         run: docker push hialves/dentist-system-api
+
+      - name: Generate deployment package
+        run: zip -r deploy.zip . -x '*.git*'
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: dentist-system-api
+          environment_name: Dentistsystemapi-env
+          region: us-east-2
+          existing_bucket_name: elasticbeanstalk-us-east-2-172646517932
+          version_label: ${{ github.sha }}
+          deployment_package: deploy.zip
