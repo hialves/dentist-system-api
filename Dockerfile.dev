@@ -5,6 +5,6 @@ COPY package*.json /usr/app/
 RUN yarn
 COPY . /usr/app/
 
-EXPOSE 3000
+EXPOSE 80
 
 CMD [ "node", "dist/src/main.js" ]
