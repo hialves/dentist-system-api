@@ -2,7 +2,10 @@ FROM node:16-alpine
 
 WORKDIR /usr/app
 COPY package*.json /usr/app/
-RUN yarn
+RUN npm install
 COPY . /usr/app/
 
-CMD [ "yarn", "dev" ]
+FROM nginx
+EXPOSE 80
+
+CMD [ "npm", "run", "dev" ]
