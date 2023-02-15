@@ -31,6 +31,6 @@ jobs:
           environment_name: Dentistsystemapi-env
           region: us-east-2
           existing_bucket_name: elasticbeanstalk-us-east-2-172646517932
-          version_label: Sample Application
+          version_label: ${{ github.sha }}
           deployment_package: deploy.zip
           use_existing_version_if_available: true
