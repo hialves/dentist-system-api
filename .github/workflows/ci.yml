@@ -19,24 +19,14 @@ jobs:
       - name: Build the Docker image
         run: docker build . --file Dockerfile.dev --tag hialves/dentist-system-api
 
+      - name: Upload the Docker image
+        run: docker push hialves/dentist-system-api
+
       - name: Generate deployment package
         run: zip -r deploy.zip . -x '*.git*'
 
-      - name: Get timestamp
-        uses: gerred/actions/current-time@master
-        id: current-time
-
-      - name: Run string replace
-        uses: frabert/replace-string-action@master
-        id: format-time
-        with:
-          pattern: '[:\.]+'
-          string: '${{ steps.current-time.outputs.time }}'
-          replace-with: '-'
-          flags: 'g'
-
       - name: Deploy to EB
-        uses: einaregilsson/beanstalk-deploy@v18
+        uses: einaregilsson/beanstalk-deploy@v21
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -44,5 +34,6 @@ jobs:
           environment_name: develop
           region: us-east-2
           existing_bucket_name: elasticbeanstalk-us-east-2-172646517932
-          version_label: 'Sample Application-${{ github.sha }}'
+          version_label: ${{ github.sha }}
           deployment_package: deploy.zip
+          use_existing_version_if_available: true
