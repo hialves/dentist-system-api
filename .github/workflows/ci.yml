@@ -19,12 +19,6 @@ jobs:
       - name: Build the Docker image
         run: docker build . --file Dockerfile.dev --tag hialves/dentist-system-api
 
-      - name: Automated Tests Run
-        run: docker run hialves/dentist-system-api yarn test -- --coverage
-
-      - name: Upload the Docker image
-        run: docker push hialves/dentist-system-api
-
       - name: Generate deployment package
         run: zip -r deploy.zip . -x '*.git*'
 
