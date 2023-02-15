@@ -1,11 +1,12 @@
 {
-  "AWSEBDockerrunVersion": "3",
+  "AWSEBDockerrunVersion": 2,
   "Image": {
     "Name": "hialves/dentist-system-api"
   },
   "Ports": [
     {
-      "ContainerPort": "3000"
+      "ContainerPort": "80",
+      "HostPort": "80"
     }
   ]
 }

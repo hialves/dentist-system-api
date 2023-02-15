@@ -5,6 +5,6 @@ COPY package*.json /usr/app/
 RUN yarn install
 COPY . /usr/app/
 
-EXPOSE 80
+EXPOSE 3000
 
 CMD [ "yarn", "prod" ]
