@@ -10,9 +10,10 @@ export class AppController {
   @Public()
   @Get()
   app() {
-    return {
-      name: `${name} v${version}`,
-      version,
-    }
+    return 'Hello world'
+    // return {
+    //   name: `${name} v${version}`,
+    //   version,
+    // }
   }
 }
