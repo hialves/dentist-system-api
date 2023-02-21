@@ -1,1 +1,12 @@
 **/node_modules
+.vscode
+.git*
+*.yml
+*.yaml
+dist
+coverage
+.eslintrc*
+.github
+.vscode
+*ignore
+*.md
